@@ -1,0 +1,225 @@
+<template name="obras">
+
+<!-- ********************** MODAL INFO DE LA OBRA SOCIAL *********************-->
+<div class="modal" id="modalObraInfo" role="dialog">									  	
+  	<div class="modal-dialog modal-md">										    
+
+      <!-- Modal content-->
+      <div class="modal-content">
+      	
+        
+        <div class="modal-body">
+			<div class="panel panel-info">
+			  	<div class="panel-heading">
+			  		<button type="button" class="close" data-dismiss="modal">&times;</button>          
+			  		<h3>Información de la Obra Social</h3>
+			  	</div>					  	
+			  	<div class="panel-body">
+			  		<table class="table table-hover">
+				  		<thead>
+					      <tr>
+				          	<th class="col-xs-4"></th>
+				          	<th class="col-xs-8"></th>	                    
+					      </tr>
+					    </thead>				
+					    <tbody>
+					      <tr>
+					      	<td><strong><p>Nombre</p></strong></td>
+					      	<td>{{obraInfo.nombre}}</td>
+					      </tr>		    	
+					      <tr>
+					      	<td><strong><p>Telefono</p></strong></td>
+					      	<td>{{obraInfo.telefono}}</td>
+					      </tr>		      	
+					      <tr>
+					      	<td><strong><p>CUIL</p></strong></td>
+					      	<td>{{obraInfo.cuil}}</td>
+					      </tr>
+					      <tr>
+					      	<td><strong><p>Direccion</p></strong></td>
+					      	<td>{{obraInfo.direccion}}</td>
+					      </tr>
+					      <tr>
+					      	<td><strong><p>Localidad</p></strong></td>
+					      	<td>{{obraInfo.localidad}}</td>
+					      </tr>
+					      <tr>
+					      	<td><strong><p>Provincia</p></strong></td>
+					      	<td>{{obraInfo.provincia}}</td>
+					      </tr>					      			      
+					    </tbody>	
+					</table>
+			  		<div class="form-group">
+					  <label for="usr">Descripcion de la Obra Social</label>
+					  <textarea disabled class="form-control" rows="5" id="descripcion" value={{obraInfo.descripcion}}></textarea>
+					</div> 
+			  	
+			    
+			  	</div>
+			</div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+      
+    </div>
+</div>
+
+<!-- ********************** MODAL ELIMINAR OBRA SOCIAL *********************-->
+<div class="modal" id="modalEliminarObra" role="dialog">									  	
+  	<div class="modal-dialog modal-md">										    
+
+      <!-- Modal content-->
+      <div class="modal-content">
+      	
+        
+        <div class="modal-body">
+			<div class="panel panel-danger">
+			  	<div class="panel-heading">
+			  		<button type="button" class="close" data-dismiss="modal">&times;</button>          
+			  		<h3>¿Desea eliminar la Obra Social?</h3>
+			  	</div>					  	
+			  	<div class="panel-body">
+			  		<table class="table table-hover">
+				  		<thead>
+					      <tr>
+				          	<th class="col-xs-4"></th>
+				          	<th class="col-xs-8"></th>	                    
+					      </tr>
+					    </thead>				
+					    <tbody>
+					      <tr>
+					      	<td><strong><p>Nombre</p></strong></td>
+					      	<td>{{obraEliminar.nombre}}</td>
+					      </tr>		    	
+					      <tr>
+					      	<td><strong><p>CUIL</p></strong></td>
+					      	<td>{{obraEliminar.cuil}}</td>
+					      </tr>		      						      			      
+					    </tbody>	
+					</table>  		
+			  	
+			    
+			  	</div>
+			</div>
+        </div>
+        <div class="modal-footer">
+          	<button class="_remove btn btn-danger">Eliminar</button>
+		    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+      
+    </div>
+</div>
+
+<!-- ******************MODAL EDITAR OBRAS********************************-->
+<div class="modal" id="modalObraEditar" role="dialog">
+  	<div class="modal-dialog modal-md">										    
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <form class="form" id="formModificarObra">			
+        <div class="modal-body">
+			<div class="panel panel-warning">
+			  	<div class="panel-heading">
+			  		<button type="button" class="close" data-dismiss="modal">&times;</button>          
+			  		<h3>Editar Obra</h3>
+			  	</div>					  	
+			  	<div class="panel-body">
+				  	<div class="form-group">
+					  <label for="usr">Nombre</label>
+					  <input type="text" class="form-control" id="nombre" value={{obraEditar.nombre}}>
+					</div>
+					<div class="form-group">
+					  <label for="usr">Telefono</label>
+					  <input type="text" class="form-control" id="telefono" value={{obraEditar.telefono}}>
+					</div>
+					<div class="form-group">
+					  <label for="usr">CUIL</label>
+					  <input type="text" class="form-control" id="cuil" value={{obraEditar.cuil}}>
+					</div>
+					<div class="form-group">
+					  <label for="usr">Dirección</label>
+					  <input type="text" class="form-control" id="direccion" value={{obraEditar.direccion}}>
+					</div>
+					<div class="form-group">
+					  <label for="usr">Localidad</label>
+					  <input type="text" class="form-control" id="localidad" value={{obraEditar.localidad}}>
+					</div>
+					<div class="form-group">
+					  <label for="usr">Provincia</label>
+					  <input type="text" class="form-control" id="provincia" value={{obraEditar.provincia}}>
+					</div>														
+					<div class="form-group">
+					  <label for="usr">Descripcion de la Obra Social</label>
+					  <textarea class="form-control" rows="5" id="descripcion" value={{obraEditar.descripcion}}></textarea>
+					</div>					
+			  	</div>
+			</div>
+        </div> 
+
+        <div class="modal-footer">
+			<button type="submit" id="submit" class="btn btn-success">Guardar</button>						        	
+			<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+		</div>   
+		</form>	       
+          
+      </div>
+      
+    </div>
+</div>
+
+<!--****************************************FIN VENTANAS MODALES************************************************************-->
+	<div class="panel panel-success">
+	  	<div class="panel-heading"><strong><h3>Lista de obras</h3></strong></div>
+	  	<div class="panel-body">		    
+		    <div class="col-lg-12">
+			    <a class="btn btn-success btn-md" href="{{ pathFor 'obra_form'}}">
+					Añadir nueva obra
+				</a>					
+		      		{{> EasySearch.Input index=obras attributes=searchAttributes }}
+		      		<hr />
+	      	</div>			
+			<div class="col-lg-12">
+				<table class="table table-hover">
+					<thead>
+				      <tr>
+			          	<th class="#80cbc4 teal-text">NOMBRE</th>
+			          	<th class="#80cbc4 teal-text">TELEFONO</th>
+			          	<th class="#80cbc4 teal-text">CUIL</th>
+	                    <th class="#80cbc4 teal-text"></th>
+				      </tr>
+				    </thead>
+				    <tbody>
+				    	{{#EasySearch.Each index=obras}}	
+				      <tr>
+				        <td>{{nombre}}</td>
+				        <td>{{telefono}}</td>
+				        <td>{{cuil}}</td>
+				        <td>
+				        	<span class="right">									
+							<a href="#"	class="modalObraInfo btn btn-info btn-xs">Detalle</a>
+							<a href="#" class="modalObraEditar btn btn-warning btn-xs">Editar</a>
+							<a href="#" class="modalRemoveObra btn btn-danger btn-xs">Eliminar</a>								
+							</span>
+						</td>
+				      </tr>
+				      	{{/EasySearch.Each}}
+				    </tbody>	
+				</table>						
+
+				{{#EasySearch.IfNoResults index=obras}}
+					<p>No hay resultados ...</p>
+				{{/EasySearch.IfNoResults}}
+
+				{{#EasySearch.IfSearching index=obras}}
+					<p>Buscando ...</p>
+				{{/EasySearch.IfSearching}}
+			
+				{{>EasySearch.Pagination index=obras}}
+			</div>			
+		</div>		
+	</div>
+
+</template>

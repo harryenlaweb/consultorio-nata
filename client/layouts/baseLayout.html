@@ -1,0 +1,39 @@
+<template name="baseLayout">
+	<nav class="navbar navbar-default">
+	  	<div class="container"> 		  		
+	  			<ul class="nav navbar-nav">
+					{{#if isInRole 'admin'}}
+						<li><a href="{{ pathFor 'consultorios'}}">Consultorios</a></li>
+					{{/if}}	
+					{{#if isInRole 'adminconsultorio'}}							
+						<li><a href="{{ pathFor 'profesionales'}}">Profesionales</a></li>						
+						<li><a href="{{ pathFor 'operadores'}}">Operadores</a></li>						
+					{{/if}}					
+					{{#if isInRole 'operador'}}	
+						<li><a href="{{ pathFor 'calendar'}}"><strong>Turnos</strong></a></li>						
+						<li><a href="{{ pathFor 'profesionales'}}">Profesionales</a></li>
+						<li><a href="{{ pathFor 'tratamientos'}}">Especialidades</a></li>										
+						<li><a href="{{ pathFor 'pacientes'}}">Pacientes</a></li>
+						<li><a href="{{ pathFor 'obras'}}">Obras</a></li>						
+					{{/if}}	
+					{{#if isInRole 'profesional'}}	
+						<li><a href="{{ pathFor 'calendar'}}"><strong>Turnos</strong></a></li>												
+						<li><a href="{{ pathFor 'pacientes'}}">Pacientes</a></li>						
+					{{/if}}			
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+			      
+			      <li><a href="#">{{> loginButtons}}</a></li>
+			      <div class="navbar-header">
+				      <a href="{{ pathFor 'calendar'}}" class="navbar-brand">LOS CONSULTORIOS</a>
+				  </div>			      
+			      
+			    </ul>
+			
+		</div>
+	</nav>
+	<!--<div class="container">-->
+	<div class="container">
+		{{> yield}}	
+	</div>
+</template>

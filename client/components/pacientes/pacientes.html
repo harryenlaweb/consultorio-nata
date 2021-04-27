@@ -1,0 +1,277 @@
+<template name="pacientes">
+<!-- ********************** MODAL INFO DEL PACIENTE *********************-->
+<div class="modal" id="modalPacienteInfo" role="dialog">									  	
+  	<div class="modal-dialog modal-md">										    
+
+      <!-- Modal content-->
+      <div class="modal-content">
+      	
+        
+        <div class="modal-body">
+			<div class="panel panel-info">
+			  	<div class="panel-heading">
+			  		<button type="button" class="close" data-dismiss="modal">&times;</button>          
+			  		<h3>Información del paciente</h3>
+			  	</div>					  	
+			  	<div class="panel-body">
+			  		<table class="table table-hover">
+				  		<thead>
+					      <tr>
+				          	<th class="col-xs-4"></th>
+				          	<th class="col-xs-8"></th>	                    
+					      </tr>
+					    </thead>				
+					    <tbody>
+					      <tr>
+					      	<td><strong><p>Nombre y Apellido</p></strong></td>
+					      	<td>{{pacienteInfo.nombreApellido}}</td>
+					      </tr>		    	
+					      <tr>
+					      	<td><strong><p>DNI</p></strong></td>
+					      	<td>{{pacienteInfo.dni}}</td>
+					      </tr>	
+					      <tr>
+					      	<td><strong><p>Obra Social</p></strong></td>
+					      	<td>{{pacienteInfo.obra}}</td>
+					      </tr>
+					      <tr>
+					      	<td><strong><p>Carnet de obra social</p></strong></td>
+					      	<td>{{pacienteInfo.carnet}}</td>
+					      </tr>	      	
+					      <tr>
+					      	<td><strong><p>telefono</p></strong></td>
+					      	<td>{{pacienteInfo.telefono}}</td>
+					      </tr>
+					      <tr>
+					      	<td><strong><p>Direccion</p></strong></td>
+					      	<td>{{pacienteInfo.localidad}}</td>
+					      </tr>
+					      <tr>
+					      	<td><strong><p>Provincia</p></strong></td>
+					      	<td>{{pacienteInfo.provincia}}</td>
+					      </tr>
+					      <tr>
+					      	<td><strong><p>Email</p></strong></td>
+					      	<td>{{pacienteInfo.email}}</td>
+					      </tr>
+					      <tr>
+					      	<td><strong><p>Profesión</p></strong></td>
+					      	<td>{{pacienteInfo.profesion}}</td>
+					      </tr>
+					      <tr>
+					      	<td><strong><p>Fecha de Nacimiento</p></strong></td>
+					      	<td>{{formatDate2 pacienteInfo.fechaNacimiento}}</td>
+					      </tr>
+					      <tr>
+					      	<td><strong><p>Fecha de Ingreso</p></strong></td>
+					      	<td>{{formatDate2 pacienteInfo.fechaIngreso}}</td>
+					      </tr>
+					      <tr>
+					      	<td><strong><p>sexo</p></strong></td>
+					      	<td>{{pacienteInfo.sexo}}</td>
+					      </tr>				      
+					    </tbody>	
+					</table>
+			  		<div class="form-group">
+					  <label for="usr">Comentarios del paciente</label>
+					  <textarea disabled class="form-control" rows="5" id="descripcion" value={{pacienteInfo.descripcion}}></textarea>
+					</div> 
+			  	
+			    
+			  	</div>
+			</div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+      
+    </div>
+</div>
+
+<!-- ********************** MODAL ELIMINAR PACIENTE *********************-->
+<div class="modal" id="modalEliminarPaciente" role="dialog">									  	
+  	<div class="modal-dialog modal-md">										    
+      <div class="modal-content">        
+        <div class="modal-body">
+			<div class="panel panel-danger">
+			  	<div class="panel-heading">
+			  		<button type="button" class="close" data-dismiss="modal">&times;</button>          
+			  		<h3>¿Desea eliminar el paciente?</h3>
+			  	</div>					  	
+			  	<div class="panel-body">
+			  		<table class="table table-hover">
+				  		<thead>
+					      <tr>
+				          	<th class="col-xs-4"></th>
+				          	<th class="col-xs-8"></th>	                    
+					      </tr>
+					    </thead>				
+					    <tbody>
+					      <tr>
+					      	<td><strong><p>Nombre y Apellido</p></strong></td>
+					      	<td>{{pacienteEliminar.nombreApellido}}</td>
+					      </tr>		    	
+					      <tr>
+					      	<td><strong><p>DNI</p></strong></td>
+					      	<td>{{pacienteEliminar.dni}}</td>
+					      </tr>		      						      			      
+					    </tbody>	
+					</table>  		
+			  	
+			    
+			  	</div>
+			</div>
+        </div>
+        <div class="modal-footer">
+          	<button class="_remove btn btn-danger">Eliminar</button>
+		    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+      
+    </div>
+</div>
+
+<!-- ******************MODAL EDITAR PACIENTE********************************-->
+<div class="modal" id="modalPacienteEditar" role="dialog">
+  	<div class="modal-dialog modal-md">										    
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <form class="form" id="formModificarPaciente">			
+        <div class="modal-body">
+			<div class="panel panel-warning">
+			  	<div class="panel-heading">
+			  		<button type="button" class="close" data-dismiss="modal">&times;</button>          
+			  		<h3>Editar paciente</h3>
+			  	</div>					  	
+			  	<div class="panel-body">			  		
+				  	<div class="form-group">
+					  <label for="usr">Nombre y Apellido</label>
+					  <input type="text" class="form-control" id="nombreApellido" value={{pacienteEditar.nombreApellido}}>
+					</div>
+					<div class="form-group">				  
+					  <label for="usr">DNI</label>
+					  <input type="text" class="form-control" id="dni" value={{pacienteEditar.dni}}>
+					</div>
+					<div class="form-group">
+					  <label for="obra">Obra social</label>
+					  <input class="form-control typeahead" name="team" type="text"										       
+				       	autocomplete="off" spellcheck="off"
+				       	data-source="obras1"
+				       	data-select="selecObra"
+				       	value={{pacienteEditar.obra}}>
+					</div>
+					<div class="form-group">				  
+					  <label for="carnet">Carnet de obra social</label>
+					  <input type="text" class="form-control" id="carnet" value={{pacienteEditar.carnet}}>
+					</div>					
+					<div class="form-group">
+					  <label for="usr">Teléfono</label>
+					  <input type="text" class="form-control" id="telefono" value={{pacienteEditar.telefono}}>
+					</div>
+					<div class="form-group">
+					  <label for="usr">Dirección</label>
+					  <input type="text" class="form-control" id="direccion" value={{pacienteEditar.direccion}}>
+					</div>
+					<div class="form-group">
+					  <label for="usr">Localidad</label>
+					  <input type="text" class="form-control" id="localidad" value={{pacienteEditar.localidad}}>
+					</div>
+					<div class="form-group">
+					  <label for="usr">Provincia</label>
+					  <input type="text" class="form-control" id="provincia" value={{pacienteEditar.provincia}}>
+					</div>
+					<div class="form-group">
+					  <label for="usr">Email</label>
+					  <input type="text" class="form-control" id="email" value={{pacienteEditar.email}}>
+					</div>
+					<div class="form-group">
+					  <label for="usr">Profesión</label>
+					  <input type="text" class="form-control" id="profesion" value={{pacienteEditar.profesion}}>
+					</div>
+
+					<div class="form-group">
+					  <label for="fechaNacimiento">Fecha de Nacimiento</label>
+					  <input type="text" class="fechaNacimiento form-control" id="fechaNacimiento2" placeholder="dd-mm-aaaa" value={{formatDate2 pacienteEditar.fechaNacimiento}}>
+					</div>
+					<div class="form-group">
+					  <label for="fechaIngreso">Fecha de Ingreso</label>
+					  <input type="text" class="fechaIngreso form-control" id="fechaIngreso2"  placeholder="dd-mm-aaaa" value={{formatDate2 pacienteEditar.fechaIngreso}}>
+					</div>																
+					<div class="form-group">
+					  <label for="usr">Descripcion del paciente</label>
+					  <textarea class="form-control" rows="5" id="descripcion" value={{pacienteEditar.descripcion}}></textarea>
+					</div>
+			  	</div>
+			</div>
+        </div> 
+
+        <div class="modal-footer">
+			<button type="submit" id="submit" class="btn btn-success">Guardar</button>						        	
+			<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+		</div>   
+		</form>	       
+          
+      </div>
+      
+    </div>
+</div>
+
+<!--********************************************************************************************************************-->
+
+	<div class="panel panel-success">
+	  	<div class="panel-heading"><strong><h3>Lista de pacientes</h3></strong></div>
+	  	<div class="panel-body">		    
+		    <div class="col-lg-12">
+			    <a class="btn btn-success btn-md" href="{{ pathFor 'paciente_form'}}">
+					Añadir nuevo paciente
+				</a>					
+		      		{{> EasySearch.Input index=pacientes attributes=searchAttributes }}
+		      		<hr />
+	      	</div>			
+			<div class="col-lg-12">
+				<table class="table table-hover">
+					<thead>
+				      <tr>
+			          	<th class="#80cbc4 teal-text">NOMBRE Y APELLIDO</th>
+			          	<th class="#80cbc4 teal-text">DNI</th>
+			          	<th class="#80cbc4 teal-text">CARNET</th>
+			          	<th class="#80cbc4 teal-text">TELEFONO</th>
+	                    <th class="#80cbc4 teal-text">ACCION</th>
+				      </tr>
+				    </thead>
+				    <tbody>
+				    	{{#EasySearch.Each index=pacientes}}	
+				      <tr>
+				        <td>{{nombreApellido}}</td>
+				        <td>{{dni}}</td>
+				        <td>{{carnet}}</td>
+				        <td>{{telefono}}</td>
+				        <td>
+				        	<span class="right">
+				        	<!--<a href="{{ pathFor 'paciente_obra' _id=_id}}" class="btn btn-success btn-xs">Obras</a>				-->
+							<a href="#"	class="modalPacienteInfo btn btn-info btn-xs">Detalle</a>
+							<a href="#" class="modalPacienteEditar btn btn-warning btn-xs">Editar</a>
+							<a href="#" class="modalRemovePaciente btn btn-danger btn-xs">Eliminar</a>								
+							</span>
+						</td>
+				      </tr>
+				      	{{/EasySearch.Each}}
+				    </tbody>	
+				</table>						
+
+				{{#EasySearch.IfNoResults index=pacientes}}
+					<p>No hay resultados ...</p>
+				{{/EasySearch.IfNoResults}}
+
+				{{#EasySearch.IfSearching index=pacientes}}
+					<p>Buscando ...</p>
+				{{/EasySearch.IfSearching}}
+			
+				{{>EasySearch.Pagination index=pacientes}}
+			</div>			
+		</div>		
+	</div>
+
+</template>

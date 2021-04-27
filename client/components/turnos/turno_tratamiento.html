@@ -1,0 +1,129 @@
+<template name="turnoTratamiento">
+	{{#with turno}}
+		<div class="row">
+			<hr />
+			<div class="col s12 m8 offset-m2">
+				<div class="card blue-grey darken-1">
+					<div class="card-content white-text">
+						<span class="card-title">{{_id}}</span>
+						<p>{{dia}}</p>						
+					</div>					
+				</div>				
+			</div>			
+		</div>
+	{{/with}}
+	<div class="row">
+		<div class="col s12 m8 offset-m2">
+
+			<div class="col s6">			
+			{{#with turno}}
+				{{#if tratamiento}}
+				<h3>Tratamiento de turno</h3>
+					{{#with tratamiento}}
+					<ul>						
+						<li>{{nombre}}</li>						
+					</ul>
+					{{/with}}
+				{{else}}
+					<p>Este turno no tiene tratamiento</p>
+				{{/if}}
+
+				{{#if profesional}}
+				<h3>Profesional de turno</h3>
+					{{#with profesional}}
+					<ul>						
+						<li>{{nombreApellido}}</li>						
+					</ul>
+					{{/with}}
+				{{else}}
+					<p>Este turno no tiene profesional</p>
+				{{/if}}
+
+				{{#if paciente}}
+				<h3>Paciente de turno</h3>
+					{{#with paciente}}
+					<ul>						
+						<li>{{nombreApellido}}</li>						
+					</ul>
+					{{/with}}
+				{{else}}
+					<p>Este turno no tiene paciente</p>
+				{{/if}}
+			{{/with}}
+
+			<h3>Agregar paciente</h3>						
+      		{{> EasySearch.Input index=pacientes attributes=searchAttributes }}			
+			<ul class="collection with-header">					
+				<li class="collection-item">
+					<table class="highlight bordered">
+						<thead>
+					      <tr>
+				          	<th class="#80cbc4 teal-text">NOMBRE Y APELLIDO</th>
+		                    <th class="#80cbc4 teal-text"></th>
+					      </tr>
+					    </thead>
+					    <tbody>
+					    	{{#EasySearch.Each index=pacientes}}	
+					      <tr>
+					        <td>{{nombreApellido}}</td>
+					        <td><span class="right"><a href="#" class="agregarPaciente">
+									<i>Agregar</i></a>				
+								</span>
+							</td>
+					      </tr>
+					      	{{/EasySearch.Each}}
+					    </tbody>	
+					</table>			
+				</li>					
+
+				{{#EasySearch.IfNoResults index=pacientes}}
+					<li class="collection-itel">No hay resultados ...</li>
+				{{/EasySearch.IfNoResults}}
+
+				{{#EasySearch.IfSearching index=pacientes}}
+					<li class="collection-itel">Buscando ...</li>
+				{{/EasySearch.IfSearching}}
+			</ul>
+			{{>EasySearch.Pagination index=pacientes}}
+
+			</div>
+			<div class="col s6">
+				<h3>Agregar tratamiento</h3>						
+		      		{{> EasySearch.Input index=tratamientos attributes=searchAttributes }}		
+					<ul class="collection with-header">					
+						<li class="collection-item">
+							<table class="highlight bordered">
+								<thead>
+							      <tr>
+						          	<th class="#80cbc4 teal-text">NOMBRE</th>
+				                    <th class="#80cbc4 teal-text"></th>
+							      </tr>
+							    </thead>
+							    <tbody>
+							    	{{#EasySearch.Each index=tratamientos}}	
+							      <tr>
+							        <td>{{nombre}}</td>
+							        <td><span class="right"><a href="#" class="agregarTratamiento">
+											<i>Agregar</i></a>				
+										</span>
+									</td>
+							      </tr>
+							      	{{/EasySearch.Each}}
+							    </tbody>	
+							</table>			
+						</li>			
+						
+
+						{{#EasySearch.IfNoResults index=tratamientos}}
+							<li class="collection-itel">No hay resultados ...</li>
+						{{/EasySearch.IfNoResults}}
+
+						{{#EasySearch.IfSearching index=tratamientos}}
+							<li class="collection-itel">Buscando ...</li>
+						{{/EasySearch.IfSearching}}
+					</ul>
+					{{>EasySearch.Pagination index=tratamientos}}
+			</div>
+		</div>
+	</div>
+</template>
