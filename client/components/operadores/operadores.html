@@ -1,0 +1,221 @@
+<template name="operadores">
+
+<!-- ******************MODAL EDITAR OPERADOR********************************-->
+<div class="modal" id="modalOperadorEditar" role="dialog">
+  	<div class="modal-dialog modal-md">										    
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <form class="form" id="formModificarOperador">			
+        <div class="modal-body">
+			<div class="panel panel-warning">
+			  	<div class="panel-heading">
+			  		<button type="button" class="close" data-dismiss="modal">&times;</button>          
+			  		<h3>Editar Operador</h3>
+			  	</div>					  	
+			  	<div class="panel-body">			  			
+					  	<div class="form-group">
+						  <label for="usr">Nombre y Apellido</label>
+						  <input type="text" class="form-control" id="nombreApellido" value={{operadorEditar.nombreApellido}}>
+						</div>
+						<div class="form-group">				  
+						  <label for="usr">DNI</label>
+						  <input type="text" class="form-control" id="dni" value={{operadorEditar.dni}}>
+						</div>						
+						<div class="form-group">
+						  <label for="usr">Teléfono</label>
+						  <input type="text" class="form-control" id="telefono" value={{operadorEditar.telefono}}>
+						</div>
+						<div class="form-group">
+						  <label for="usr">Email</label>
+						  <input type="text" class="form-control" id="email" value={{operadorEditar.email}}>
+						</div>
+						
+						<div class="form-group">
+						  <label for="usr">Fecha de Nacimiento</label>
+						  <input type="datetimepicker2" class="form-control" id="fechaNacimiento" value={{formatDate2 operadorEditar.fechaNacimiento}}>
+						</div>
+						<div class="form-group">
+						  <label for="usr">¿El operador es Hombre o Mujer?</label>
+						  <input type="text" class="form-control" id="sexo" value={{operadorEditar.sexo}}>
+						</div>
+						<div class="form-group">
+						  <label for="usr">Descripcion del operador</label>
+						  <textarea class="form-control" rows="5" id="descripcion" value={{operadorEditar.descripcion}}></textarea>
+						</div>
+						
+					<!--</form>-->
+			  	</div>
+			</div>
+        </div> 
+
+        <div class="modal-footer">
+			<button type="submit" id="submit" class="btn btn-success">Guardar</button>						        	
+			<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+		</div>   
+		</form>	       
+          
+      </div>
+      
+    </div>
+</div>
+
+<!-- ********************** MODAL ELIMINAR OPERADOR *********************-->
+<div class="modal" id="modalEliminarOperador" role="dialog">									  	
+  	<div class="modal-dialog modal-md">	      
+      <div class="modal-content">        
+        <div class="modal-body">
+			<div class="panel panel-danger">
+			  	<div class="panel-heading">
+			  		<button type="button" class="close" data-dismiss="modal">&times;</button>          
+			  		<h3>¿Desea eliminar el operador?</h3>
+			  	</div>					  	
+			  	<div class="panel-body">
+			  		<table class="table table-hover">
+				  		<thead>
+					      <tr>
+				          	<th class="col-xs-4"></th>
+				          	<th class="col-xs-8"></th>	                    
+					      </tr>
+					    </thead>				
+					    <tbody>
+					      <tr>
+					      	<td><strong><p>Nombre y Apellido</p></strong></td>
+					      	<td>{{operadorEliminar.nombreApellido}}</td>
+					      </tr>		    	
+					      <tr>
+					      	<td><strong><p>DNI</p></strong></td>
+					      	<td>{{operadorEliminar.dni}}</td>
+					      </tr>		      						      			      
+					    </tbody>	
+					</table>  		
+			  	
+			    
+			  	</div>
+			</div>
+        </div>
+        <div class="modal-footer">
+          	<button class="_remove btn btn-danger">Eliminar</button>
+		    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+      
+    </div>
+</div>
+
+<!-- ********************** MODAL INFO DEL Operador *********************-->
+<div class="modal" id="modalOperadorInfo" role="dialog">									  	
+  	<div class="modal-dialog modal-md">										    
+
+      <!-- Modal content-->
+      <div class="modal-content">
+      	
+        
+        <div class="modal-body">
+			<div class="panel panel-info">
+			  	<div class="panel-heading">
+			  		<button type="button" class="close" data-dismiss="modal">&times;</button>          
+			  		<h3>Información del operador</h3>
+			  	</div>					  	
+			  	<div class="panel-body">
+			  		<table class="table table-hover">
+				  		<thead>
+					      <tr>
+				          	<th class="col-xs-4"></th>
+				          	<th class="col-xs-8"></th>	                    
+					      </tr>
+					    </thead>				
+					    <tbody>					      
+					      <tr>
+					      	<td><strong><p>Nombre</p></strong></td>
+					      	<td>{{operadorInfo.nombreApellido}}</td>
+					      </tr>		    						      
+					      <tr>
+					      	<td><strong><p>DNI</p></strong></td>
+					      	<td>{{operadorInfo.dni}}</td>
+					      </tr>
+					      <tr>
+					      	<td><strong><p>Teléfono</p></strong></td>
+					      	<td>{{operadorInfo.telefono}}</td>
+					      </tr>
+					      <tr>
+					      	<td><strong><p>Email</p></strong></td>
+					      	<td>{{operadorInfo.email}}</td>
+					      </tr>
+					      <tr>
+					      	<td><strong><p>Fecha Nacimiento</p></strong></td>
+					      	<td>{{formatDate2 operadorInfo.fechaNacimiento}}</td>
+					      </tr>				      
+					    </tbody>	
+					</table>
+			  		<div class="form-group">
+					  <label for="usr">Descripcion del operador</label>
+					  <textarea disabled class="form-control" rows="5" id="descripcion" value={{operadorInfo.descripcion}}></textarea>
+					</div> 
+			  	
+			    
+			  	</div>
+			</div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+      
+    </div>
+</div>
+
+
+
+<!--********************************************************************************************************************-->
+
+	<div class="panel panel-success">
+	  	<div class="panel-heading"><strong><h3>Lista de operadores</h3></strong></div>
+	  	<div class="panel-body">		    
+		    <div class="col-lg-12">
+			    <a class="btn btn-success btn-md" href="{{ pathFor 'operador_form'}}">
+					Añadir nuevo operador
+				</a>					
+		      		{{> EasySearch.Input index=operadores attributes=searchAttributes }}
+		      		<hr />
+	      	</div>			
+			<div class="col-lg-12">
+				<table class="table table-hover">
+					<thead>
+				      <tr>
+			          	<th class="#80cbc4 teal-text">NOMBRE Y APELLIDO</th>
+			          	<th class="#80cbc4 teal-text">DNI</th>
+	                    <th class="#80cbc4 teal-text"></th>
+				      </tr>
+				    </thead>
+				    <tbody>
+				    	{{#EasySearch.Each index=operadores}}	
+				      <tr>
+				        <td>{{nombreApellido}}</td>
+				        <td>{{dni}}</td>
+				        <td>
+				        	<span class="right">									
+							<a href="#"	class="modalOperadorInfo btn btn-info btn-xs">Detalle</a>
+							<a href="#" class="modalOperadorEditar btn btn-warning btn-xs">Editar</a>
+							<a href="#" class="modalRemoveOperador btn btn-danger btn-xs">Eliminar</a>								
+							</span>
+						</td>
+				      </tr>
+				      	{{/EasySearch.Each}}
+				    </tbody>	
+				</table>						
+
+				{{#EasySearch.IfNoResults index=operadores}}
+					<p>No hay resultados ...</p>
+				{{/EasySearch.IfNoResults}}
+
+				{{#EasySearch.IfSearching index=operadores}}
+					<p>Buscando ...</p>
+				{{/EasySearch.IfSearching}}
+			
+				{{>EasySearch.Pagination index=operadores}}
+			</div>			
+		</div>		
+	</div>
+
+</template>

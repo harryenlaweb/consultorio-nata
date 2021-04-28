@@ -1,0 +1,26 @@
+<template name="projectDetail">
+	{{#with project}}
+		<div class="row">
+			<hr />
+			<div class="col s12 m8 offset-m2">
+				<div class="card blue-grey darken-1">
+					<div class="card-content white-text">
+						<span class="card-title">{{name}}</span>
+						<p>{{summary}}</p>
+						<hr />
+						<h5 class="card-title">Notas del proyecto</h5>
+						{{#if notes}}
+							<ul>
+								{{#each notes}}
+									<li>{{note}}</li>
+								{{/each}}
+							</ul>
+						{{else}}
+							<p>Este proyecto no tiene notas</p>
+						{{/if}}
+					</div>					
+				</div>				
+			</div>			
+		</div>
+	{{/with}}
+</template>

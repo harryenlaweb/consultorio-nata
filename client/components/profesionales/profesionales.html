@@ -1,0 +1,243 @@
+<template name="profesionales">
+
+<!-- ******************MODAL EDITAR PROFESIONAL********************************-->
+<div class="modal" id="modalProfesionalEditar" role="dialog">
+  	<div class="modal-dialog modal-md">										    
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <form class="form" id="formModificarProfesional">			
+        <div class="modal-body">
+			<div class="panel panel-warning">
+			  	<div class="panel-heading">
+			  		<button type="button" class="close" data-dismiss="modal">&times;</button>          
+			  		<h3>Editar Profesional</h3>
+			  	</div>					  	
+			  	<div class="panel-body">
+			  			<div class="checkbox">
+						    <label>
+						    <input type="checkbox" id="combos" value={{profesionalEditar.combos}}>¿Utiliza combos de especialidades?</label>
+						</div>
+					  	<div class="form-group">
+						  <label for="usr">Nombre y Apellido</label>
+						  <input type="text" class="form-control" id="nombreApellido" value={{profesionalEditar.nombreApellido}}>
+						</div>
+						<div class="form-group">				  
+						  <label for="usr">DNI</label>
+						  <input type="text" class="form-control" id="dni" value={{profesionalEditar.dni}}>
+						</div>
+						<div class="form-group">
+						  <label for="usr">Especialidad</label>
+						  <input type="text" class="form-control" id="especialidad" value={{profesionalEditar.especialidad}}>
+						</div>
+						<div class="form-group">
+						  <label for="usr">Teléfono</label>
+						  <input type="text" class="form-control" id="telefono" value={{profesionalEditar.telefono}}>
+						</div>
+						<div class="form-group">
+						  <label for="usr">Email</label>
+						  <input type="text" class="form-control" id="email" value={{profesionalEditar.email}}>
+						</div>						
+						<div class="form-group">
+						  <label for="usr">Fecha de Nacimiento</label>
+						  <input type="datetimepicker2" class="form-control" id="fechaNacimiento" value={{formatDate2 profesionalEditar.fechaNacimiento}}>
+						</div>
+						<div class="form-group">
+						  <label for="usr">¿El profesional es Hombre o Mujer?</label>
+						  <input type="text" class="form-control" id="sexo" value={{profesionalEditar.sexo}}>
+						</div>
+						<div class="form-group">
+						  <label for="usr">Descripcion del profesional</label>
+						  <textarea class="form-control" rows="5" id="descripcion" value={{profesionalEditar.descripcion}}></textarea>
+						</div>					
+			  	</div>
+			</div>
+        </div> 
+
+        <div class="modal-footer">
+			<button type="submit" id="submit" class="btn btn-success">Guardar</button>						        	
+			<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+		</div>   
+		</form>	       
+          
+      </div>
+      
+    </div>
+</div>
+
+<!-- ********************** MODAL ELIMINAR PROFESIONAL *********************-->
+<div class="modal" id="modalEliminarProfesional" role="dialog">									  	
+  	<div class="modal-dialog modal-md">										    
+
+      <!-- Modal content-->
+      <div class="modal-content">
+      	
+        
+        <div class="modal-body">
+			<div class="panel panel-danger">
+			  	<div class="panel-heading">
+			  		<button type="button" class="close" data-dismiss="modal">&times;</button>          
+			  		<h3>¿Desea eliminar el profesional?</h3>
+			  	</div>					  	
+			  	<div class="panel-body">
+			  		<table class="table table-hover">
+				  		<thead>
+					      <tr>
+				          	<th class="col-xs-4"></th>
+				          	<th class="col-xs-8"></th>	                    
+					      </tr>
+					    </thead>				
+					    <tbody>
+					      <tr>
+					      	<td><strong><p>Nombre y Apellido</p></strong></td>
+					      	<td>{{profesionalEliminar.nombreApellido}}</td>
+					      </tr>		    	
+					      <tr>
+					      	<td><strong><p>Especialidad</p></strong></td>
+					      	<td>{{profesionalEliminar.especialidad}}</td>
+					      </tr>		      						      			      
+					    </tbody>	
+					</table>  		
+			  	
+			    
+			  	</div>
+			</div>
+        </div>
+        <div class="modal-footer">
+          	<button class="_remove btn btn-danger">Eliminar</button>
+		    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+      
+    </div>
+</div>
+
+<!-- ********************** MODAL INFO DEL PROFESIONAL *********************-->
+<div class="modal" id="modalProfesionalInfo" role="dialog">									  	
+  	<div class="modal-dialog modal-md">										    
+
+      <!-- Modal content-->
+      <div class="modal-content">
+      	
+        
+        <div class="modal-body">
+			<div class="panel panel-info">
+			  	<div class="panel-heading">
+			  		<button type="button" class="close" data-dismiss="modal">&times;</button>          
+			  		<h3>Información del profesional</h3>
+			  	</div>					  	
+			  	<div class="panel-body">
+			  		<table class="table table-hover">
+				  		<thead>
+					      <tr>
+				          	<th class="col-xs-4"></th>
+				          	<th class="col-xs-8"></th>	                    
+					      </tr>
+					    </thead>				
+					    <tbody>
+					      <tr>
+					      	<td><strong><p>Usa combos de especialidades</p></strong></td>
+					      	{{#if profesionalInfo.combos }}
+					      		<td>SI</td>
+					      	{{else}}
+					      		<td>NO</td>
+					      	{{/if}}
+					      </tr>
+					      <tr>
+					      	<td><strong><p>Nombre</p></strong></td>
+					      	<td>{{profesionalInfo.nombreApellido}}</td>
+					      </tr>		    	
+					      <tr>
+					      	<td><strong><p>Especialidad</p></strong></td>
+					      	<td>{{profesionalInfo.especialidad}}</td>
+					      </tr>		      	
+					      <tr>
+					      	<td><strong><p>DNI</p></strong></td>
+					      	<td>{{profesionalInfo.dni}}</td>
+					      </tr>
+					      <tr>
+					      	<td><strong><p>Teléfono</p></strong></td>
+					      	<td>{{profesionalInfo.telefono}}</td>
+					      </tr>
+					      <tr>
+					      	<td><strong><p>Email</p></strong></td>
+					      	<td>{{profesionalInfo.email}}</td>
+					      </tr>
+					      <tr>
+					      	<td><strong><p>Fecha Nacimiento</p></strong></td>
+					      	<td>{{formatDate2 profesionalInfo.fechaNacimiento}}</td>
+					      </tr>				      
+					    </tbody>	
+					</table>
+			  		<div class="form-group">
+					  <label for="usr">Descripcion del profesional</label>
+					  <textarea disabled class="form-control" rows="5" id="descripcion" value={{profesionalInfo.descripcion}}></textarea>
+					</div> 
+			  	
+			    
+			  	</div>
+			</div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+      
+    </div>
+</div>
+
+
+
+<!--********************************************************************************************************************-->
+
+	<div class="panel panel-success">
+	  	<div class="panel-heading"><strong><h3>Lista de profesionales</h3></strong></div>
+	  	<div class="panel-body">		    
+		    <div class="col-lg-12">
+			    <a class="btn btn-success btn-md" href="{{ pathFor 'profesional_form'}}">
+					Añadir nuevo profesional
+				</a>					
+		      		{{> EasySearch.Input index=profesionales attributes=searchAttributes }}
+		      		<hr />
+	      	</div>			
+			<div class="col-lg-12">
+				<table class="table table-hover">
+					<thead>
+				      <tr>
+			          	<th class="#80cbc4 teal-text">NOMBRE Y APELLIDO</th>
+			          	<th class="#80cbc4 teal-text">ESPECIALIDAD</th>
+	                    <th class="#80cbc4 teal-text"></th>
+				      </tr>
+				    </thead>
+				    <tbody>
+				    	{{#EasySearch.Each index=profesionales}}	
+				      <tr>
+				        <td>{{nombreApellido}}</td>
+				        <td>{{especialidad}}</td>
+				        <td>
+				        	<span class="right">		
+							<a href="{{ pathFor 'profesional_tratamiento' _id=_id}}" class="btn btn-success btn-xs">Especialidades</a>
+							<a href="#"	class="modalProfesionalInfo btn btn-info btn-xs">Detalle</a>
+							<a href="#" class="modalProfesionalEditar btn btn-warning btn-xs">Editar</a>
+							<a href="#" class="modalRemoveProfesional btn btn-danger btn-xs">Eliminar</a>								
+							</span>
+						</td>
+				      </tr>
+				      	{{/EasySearch.Each}}
+				    </tbody>	
+				</table>						
+
+				{{#EasySearch.IfNoResults index=profesionales}}
+					<p>No hay resultados ...</p>
+				{{/EasySearch.IfNoResults}}
+
+				{{#EasySearch.IfSearching index=profesionales}}
+					<p>Buscando ...</p>
+				{{/EasySearch.IfSearching}}
+			
+				{{>EasySearch.Pagination index=profesionales}}
+			</div>			
+		</div>		
+	</div>
+
+</template>

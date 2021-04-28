@@ -1,0 +1,59 @@
+<template name="profesionalDetail">
+{{#with profesional}}
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3">
+			<div class="panel panel-success">
+			  	<div class="panel-heading">
+			  		<h3>{{nombreApellido}}</h3>
+			  	</div>
+			  	
+			  	<!--<ul class="list-group">
+				    <li class="list-group-item"><strong>Especialidad:</strong> {{especialidad}}</li>
+				    <li class="list-group-item"><strong>DNI: </strong>{{dni}}</li>
+				    <li class="list-group-item"><strong>Teléfono: </strong>{{telefono}}</li>
+				    <li class="list-group-item"><strong>Email: </strong>{{email}}</li>
+				    <li class="list-group-item"><strong>Fecha Nacimiento: </strong>{{formatDate2 fechaNacimiento}}</li>				    
+				</ul>-->
+			  	<div class="panel-body">
+			  		<table class="table table-hover">
+				  		<thead>
+					      <tr>
+				          	<th class="col-xs-3"></th>
+				          	<th class="col-xs-9"></th>	                    
+					      </tr>
+					    </thead>				
+					    <tbody>		    	
+					      <tr>
+					      	<td><strong><p>Especialidad</p></strong></td>
+					      	<td>{{especialidad}}</td>
+					      </tr>		      	
+					      <tr>
+					      	<td><strong><p>DNI</p></strong></td>
+					      	<td>{{dni}}</td>
+					      </tr>
+					      <tr>
+					      	<td><strong><p>Teléfono</p></strong></td>
+					      	<td>{{telefono}}</td>
+					      </tr>
+					      <tr>
+					      	<td><strong><p>Email</p></strong></td>
+					      	<td>{{email}}</td>
+					      </tr>
+					      <tr>
+					      	<td><strong><p>Fecha Nacimiento</p></strong></td>
+					      	<td>{{formatDate2 fechaNacimiento}}</td>
+					      </tr>				      
+					    </tbody>	
+					</table>
+			  		<div class="form-group">
+					  <label for="usr">Descripcion del profesional</label>
+					  <textarea class="form-control" rows="5" id="descripcion" value={{descripcion}}></textarea>
+					</div> 
+			  	
+			    
+			  	</div>
+			</div>
+		</div>
+	</div>
+{{/with}}
+</template>
