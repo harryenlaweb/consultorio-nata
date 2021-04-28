@@ -1,0 +1,17 @@
+<template name="projectForm">
+	<div class="row">
+		<div class="col s12">
+			<h2>Crear nuevo proyecto</h2>
+			<a class="btn" href="{{ pathFor 'projects'}}">
+				Volver al listado de proyectos
+			</a>
+		</div>
+
+		<div class="divider"></div>
+
+		<div class="col s12">
+			{{>quickForm collection=formCollection id="projectForm" type="insert"}}
+		</div>
+	</div>
+	
+</template>

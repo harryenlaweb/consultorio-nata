@@ -1,0 +1,916 @@
+<template name="calendar">
+
+	
+
+<!--
+<style>
+	.event a {
+		background: #f1948a  !important;
+		background-color: #f1948a  !important;
+		color: white !important;
+	}
+</style>-->
+
+<!--**************************************INICIO VENTANAS MODALES************************************-->
+
+
+<!--***************** MODAL PARA RESERVAR TURNOS*********************-->
+
+<div class="modal right fade" id="modalIngresoTurno" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+	<div class="modal-dialog modal-lg">										    
+    
+      
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Reserva de turnos</h4>
+        </div>                      	
+      		<div class="modal-body">        	
+		        <form class="form" id="formTurno">
+				    <div class="form-group">						        						            
+					      	<div class="row">
+						      	<div class="col-xs-6">
+						      		<div class="panel panel-default">
+									    <div class="panel-heading"><strong>Paciente</strong></div>
+									    <div class="panel-body">											    
+									    <input class="form-control typeahead" name="team" type="text"										       
+									       	autocomplete="off" spellcheck="off"
+									       	data-source="pacientes1"
+									       	data-select="selecPaciente"/>
+								       		<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modalIngresoPaciente">+</button>
+								       	</div>												
+									</div>								      		
+					        	</div>
+					        	<div class="col-xs-6">
+							      	<div class="panel panel-default">
+								      	<div class="panel-heading"><strong>Profesional</strong></div>
+										<div class="panel-body">{{profesional1.nombreApellido}}</div>
+						        	</div>
+					        	</div>											        	
+					        </div>
+
+					        <div class="row">
+					        	<div class="col-xs-6">
+						      		<div class="panel panel-default">
+						      			{{#if tratamiento1.nombre}}
+
+									    <div class="panel-heading"><strong>Tratamiento</strong></div>
+									    <div class="panel-body">{{tratamiento1.nombre}}</div>
+									    {{else}}
+									    	<div class="panel-heading"><strong>Tratamiento</strong></div>
+							    				<div class="panel-body">				
+													
+									  			</div>								  	  	
+											
+									    {{/if}}
+									</div>								      		
+					        	</div>
+					        	<div class="col-xs-3">
+							      	<div class="panel panel-default">
+								      	<div class="panel-heading"><strong>Día</strong></div>
+										<div class="panel-body">{{formatDate2 dia}}</div>
+						        	</div>
+					        	</div>
+					        	<div class="col-xs-3">
+							      	<div class="panel panel-default">
+								      	<div class="panel-heading"><strong>Duración</strong></div>
+										<div class="panel-body">{{duracion1}} min</div>
+						        	</div>
+					        	</div>										        	
+					        </div>
+
+					        <div class="row">
+					        	<div class="col-xs-12">
+						      		<div class="panel panel-default">									    
+						      			<div class="panel-heading"><strong>Seleccione Especialidad</strong></div>
+					      				<div class="panel-body">
+									  		{{#if profesional1.combos}}
+										  		{{#if ActualizarVista}}  				
+										  			<div>				
+														{{#Multiselect name='multiple' menuItems=myMenuItems selectedList=mySelectedList configOptions=myConfigOptions}}				    
+														    <option value={{value}} {{selectedAttr}}>{{caption}}</option>
+														{{/Multiselect}}					
+										  			</div>
+										  		{{else}}
+										  			<div>	  		
+												  		{{#Multiselect name='multiple' menuItems=myMenuItems selectedList=mySelectedList configOptions=myConfigOptions}}				    
+														    <option value={{value}} {{selectedAttr}}>{{caption}}</option>
+														{{/Multiselect}}
+												  	</div>
+										  		{{/if}}
+										  	{{else}}
+										  		<div>									  			
+									    			
+											  			<select class="form-control" id="tratamiento1">
+											    			<option>Seleccione especialidad...</option>	        	
+											      			{{#each tratamientos1}}
+													        	<option value="{{_id}}">{{nombre}} / {{duracion}} min</option>
+											    		 	{{/each}}
+											  			</select>
+											  		
+										  		</div>
+										  	{{/if}}	
+										</div>
+									</div>								      		
+					        	</div>
+					        										        	
+					        </div>
+
+					        <div class="row">
+						      	<div class="col-xs-6">
+							      	<div class="form-group">
+									  <label for="usr">Notas</label>
+									  <textarea class="form-control" rows="5" id="motivo"></textarea>
+									</div>
+					        	</div>
+					        	<div class="col-xs-6">
+					        		<div class="row">
+								      	<strong><p>Hora Inicio</p></strong>      	
+							        	<div class="form-group col-xs-6">	
+										    <select class="form-control" id="selHoraInicio">
+										        <option>07</option>
+										        <option>08</option>
+										        <option>09</option>
+										        <option>10</option>
+										        <option>11</option>
+										        <option>12</option>
+										        <option>13</option>
+										        <option>14</option>
+										        <option>15</option>
+										        <option>16</option>
+										        <option>17</option>
+										        <option>18</option>
+										        <option>19</option>
+										        <option>20</option>
+										        <option>21</option>											        
+										    </select>
+										</div>
+										<div class="form-group col-xs-6">	
+										    <select class="form-control" id="selMinutosInicio">
+										        <option>00</option>        
+										        <option>05</option>        
+										        <option>10</option>        
+										        <option>15</option>        
+										        <option>20</option>        
+										        <option>25</option>        
+										        <option>30</option>
+										        <option>35</option>       
+										        <option>40</option>        
+										        <option>45</option>        
+										        <option>50</option>        
+										        <option>55</option>        
+										    </select>
+										</div>
+									</div>									
+					        	</div>				        	
+					        </div>				        
+				        <div class="modal-footer">
+				        	<button type="submit" id="submit" class="btn btn-success">Guardar</button>
+				        	
+				          	<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+				        </div>
+					</div>						
+			    </form>			        	
+	      	</div>       	
+      </div>
+	</div>
+</div>
+
+<!--***************** MODAL PARA RESERVAR SOBRE TURNOS*********************-->
+<div class="modal right fade" id="modalIngresoSobreTurno" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1">
+<!--<div class="modal" id="modalIngresoSobreTurno" role="dialog">	-->
+  	<div class="modal-dialog modal-lg">										    
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Reserva de sobre Sobreturnos</h4>
+        </div>                      	
+      		<div class="modal-body">        	
+		        <form class="form" id="formSobreTurno">
+				    <div class="form-group">						        						            
+					      	<div class="row">
+						      	<div class="col-xs-6">
+						      		<div class="panel panel-default">
+									    <div class="panel-heading"><strong>Paciente</strong></div>
+									    <div class="panel-body">											    
+									    <input class="form-control typeahead" name="team" type="text"										       
+									       	autocomplete="off" spellcheck="off"
+									       	data-source="pacientes1"
+									       	data-select="selecPaciente"/>
+								       		<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modalIngresoPaciente">+</button>
+								       	</div>												
+									</div>								      		
+					        	</div>
+					        	<div class="col-xs-6">
+							      	<div class="panel panel-default">
+								      	<div class="panel-heading"><strong>Profesional</strong></div>
+										<div class="panel-body">{{profesional1.nombreApellido}}</div>
+						        	</div>
+					        	</div>											        	
+					        </div>
+
+					        <div class="row">
+					        	<div class="col-xs-6">
+						      		<div class="panel panel-default">
+									    <div class="panel-heading"><strong>Tratamiento</strong></div>
+									    <div class="panel-body">{{tratamiento1.nombre}}</div>
+									</div>								      		
+					        	</div>
+					        	<div class="col-xs-3">
+							      	<div class="panel panel-default">
+								      	<div class="panel-heading"><strong>Día</strong></div>
+										<div class="panel-body">{{formatDate2 dia}}</div>
+						        	</div>
+					        	</div>
+					        	<div class="col-xs-3">
+							      	<div class="panel panel-default">
+								      	<div class="panel-heading"><strong>Duración</strong></div>
+										<div class="panel-body">{{duracion1}} min</div>
+						        	</div>
+					        	</div>										        	
+					        </div>
+
+					        <div class="row">
+						      	<div class="col-xs-6">
+							      	<div class="form-group">
+									  <label for="usr">Notas</label>
+									  <textarea class="form-control" rows="5" id="motivo"></textarea>
+									</div>
+					        	</div>
+					        	<div class="col-xs-6">
+					        		<div class="row">
+								      	<strong><p>Hora Inicio</p></strong>      	
+							        	<div class="form-group col-xs-6">	
+										    <select class="form-control" id="selHoraInicio">
+										        <option>07</option>
+										        <option>08</option>
+										        <option>09</option>
+										        <option>10</option>
+										        <option>11</option>
+										        <option>12</option>
+										        <option>13</option>
+										        <option>14</option>
+										        <option>15</option>
+										        <option>16</option>
+										        <option>17</option>
+										        <option>18</option>
+										        <option>19</option>
+										        <option>20</option>
+										        <option>21</option>											        
+										    </select>
+										</div>
+										<div class="form-group col-xs-6">	
+										    <select class="form-control" id="selMinutosInicio">
+										        <option>00</option>        
+										        <option>05</option>        
+										        <option>10</option>        
+										        <option>15</option>        
+										        <option>20</option>        
+										        <option>25</option>        
+										        <option>30</option>
+										        <option>35</option>       
+										        <option>40</option>        
+										        <option>45</option>        
+										        <option>50</option>        
+										        <option>55</option>        
+										    </select>
+										</div>
+									</div>
+
+									{{#if compare duracion1 0}}								      	
+							        	<div class="row">
+									      	<strong><p>Hora Fin</p></strong>      	
+								        	<div class="form-group col-xs-3">	
+											    <select class="form-control" id="selHoraFin">
+											        <option>07</option>
+											        <option>08</option>
+											        <option>09</option>
+											        <option>10</option>
+											        <option>11</option>
+											        <option>12</option>
+											        <option>13</option>
+											        <option>14</option>
+											        <option>15</option>
+											        <option>16</option>
+											        <option>17</option>
+											        <option>18</option>
+											        <option>19</option>
+											        <option>20</option>
+											        <option>21</option>
+											    </select>
+											</div>
+											<div class="form-group col-xs-3">	
+											    <select class="form-control" id="selMinutosFin">
+											        <option>00</option>        
+											        <option>05</option>        
+											        <option>10</option>        
+											        <option>15</option>        
+											        <option>20</option>        
+											        <option>25</option>        
+											        <option>30</option>
+											        <option>35</option>       
+											        <option>40</option>        
+											        <option>45</option>        
+											        <option>50</option>        
+											        <option>55</option>        
+											    </select>
+											</div>
+							        	</div>
+								        
+							        {{/if}}
+					        	</div>				        	
+					        </div>				        
+				        <div class="modal-footer">
+				        	<button type="submit" id="submit" class="btn btn-success">Guardar</button>
+				        	
+				          	<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+				        </div>
+					</div>						
+			    </form>			        	
+	      	</div>       	
+      </div>
+	</div>
+</div>	
+
+
+
+
+
+<!-- ******************MODAL CREAR PACIENTE********************************-->
+<div class="modal" id="modalIngresoPaciente" role="dialog">
+  	<div class="modal-dialog modal-md">			    
+      	<!-- Modal content-->
+      	<div class="modal-content">
+	        <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal">&times;</button>
+	          <h4 class="modal-title">Nuevo paciente</h4>
+	        </div>			        
+		    <form class="form" id="formPaciente">						    
+			    <div class="modal-body">			    	
+				  	<input type="text" class="form-control" id="nombreApellido" placeholder="Nombre y apellido" name="nombreApellido" aria-describedby="basic-addon1"> <br>							
+				  	<input type="text" class="form-control" id="dni" placeholder="DNI" name="dni" aria-describedby="basic-addon2"> <br>
+									
+				  	<input type="text" class="form-control" id="telefono" placeholder="Teléfono" name="telefono" aria-describedby="basic-addon3"> <br>  	
+				
+					<input class="form-control typeahead" name="team" type="text"										       
+					       	autocomplete="off" spellcheck="off"
+					       	data-source="obras1"
+					       	data-select="selecObra"
+					       	placeholder="Obra social">		 
+					<br>	<br>	
+					<input type="text" class="form-control" id="carnet" placeholder="Número de carnet" name="numeroCarnet" aria-describedby="basic-addon3">
+				</div>
+				<div class="modal-footer">
+		        	<button type="submit" id="submit" class="btn btn-success">Guardar</button>        	
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>		        
+			    </div>							
+		    </form>			        
+      	</div>
+    </div>
+</div>
+
+<!-- ********************** MODAL INFO DEL PACIENTE EN EL TURNO *********************-->
+<div class="modal" id="modalInfoPaciente" role="dialog">									  	
+  	<div class="modal-dialog modal-md">										          
+      <div class="modal-content">
+      	
+        
+        <div class="modal-body">
+			<div class="panel panel-info">
+			  	<div class="panel-heading">
+			  		<button type="button" class="close" data-dismiss="modal">&times;</button>          
+			  		<h3>Información del paciente</h3>
+			  	</div>					  	
+			  	<div class="panel-body">
+			  		<table class="table table-hover">
+				  		<thead>
+					      <tr>
+				          	<th class="col-xs-4"></th>
+				          	<th class="col-xs-8"></th>	                    
+					      </tr>
+					    </thead>				
+					    <tbody>
+					      <tr>
+					      	<td><strong><p>Nombre y Apellido</p></strong></td>
+					      	<td>{{ModalInfoPaciente.nombreApellido}}</td>
+					      </tr>		    	
+					      <tr>
+					      	<td><strong><p>DNI</p></strong></td>
+					      	<td>{{ModalInfoPaciente.dni}}</td>
+					      </tr>	
+					      <tr>
+					      	<td><strong><p>Teléfono</p></strong></td>
+					      	<td>{{ModalInfoPaciente.telefono}}</td>
+					      </tr>	      						     			      
+					    </tbody>	
+					</table>
+			  	</div>
+			</div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- ********************** MODAL ELIMINAR TURNO *********************-->
+<div class="modal" id="modalEliminarTurno" role="dialog">									  	
+  	<div class="modal-dialog modal-md">										          
+      <div class="modal-content">
+      	
+        
+        <div class="modal-body">
+			<div class="panel panel-danger">
+			  	<div class="panel-heading">
+			  		<button type="button" class="close" data-dismiss="modal">&times;</button>          
+			  		<h3>¿Desea eliminar el turno?</h3>
+			  	</div>					  	
+			  	<div class="panel-body">
+			  		<table class="table table-hover">
+				  		<thead>
+					      <tr>
+				          	<th class="col-xs-4"></th>
+				          	<th class="col-xs-8"></th>	                    
+					      </tr>
+					    </thead>				
+					    <tbody>
+					      <tr>
+					      	<td><strong><p>Paciente</p></strong></td>
+					      	<td>{{turnoEliminar.paciente.nombreApellido}}</td>
+					      </tr>		    	
+					      <tr>
+					      	<td><strong><p>Turno</p></strong></td>
+					      	<td>{{formatDate1 turnoEliminar.inicio}} - {{formatDate1 turnoEliminar.fin}}</td>
+					      </tr>		      						     			      
+					    </tbody>	
+					</table>
+			  	</div>
+			</div>
+        </div>
+        <div class="modal-footer">
+        	<button class="_remove btn btn-danger">Eliminar</button>
+          	<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>          	
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- ********************** MODAL BUSCAR TURNOS *********************-->
+<div class="modal" id="modalBuscarTurnos" role="dialog">									  	
+  	<div class="modal-dialog modal-lg">										    
+
+      <!-- Modal content-->
+      <div class="modal-content">
+      	
+        
+        <div class="modal-body">
+			<div class="panel panel-info">
+			  	<div class="panel-heading">
+			  		<button type="button" class="borrarInfoBuscar close" data-dismiss="modal">&times;</button>          
+			  		<h3>Buscar turnos</h3>
+			  	</div>					  	
+			  	<div class="panel-body">
+			  		<label>Paciente</label>
+			  		<input class="form-control typeahead" name="team2" type="text"										       
+									       	autocomplete="off" spellcheck="off"
+									       	data-source="pacientesBuscar"
+									       	data-select="selecPacienteBuscar"/>
+					<div class="form-group">						
+						<table class="table table-hover">
+							<thead>
+						      <tr>				          	
+					          	<th class="#80cbc4 teal-text">Dia</th>
+					          	<th class="#80cbc4 teal-text">Horario</th>					          	
+					          	<th class="#80cbc4 teal-text">Profesional</th>
+					          	<th class="#80cbc4 teal-text">Estado</th>
+						      </tr>
+						    </thead>				  						
+						    
+						    {{#each turnosBuscar}}
+						    	{{#if compare estado "FALTO"}}
+							    	<tbody>					    						    	
+								      <tr class="danger">					        							        
+								        <td><strong>{{formatDate2 inicio}} </strong></td>
+								      	<td><strong>{{formatDate1 inicio}} - {{formatDate1 fin}}</strong></td>					    
+								    	<td>{{profesional.nombreApellido}}</td>
+								    	<td>{{estado}}</td>
+								      </tr>
+								    </tbody>							    
+							    {{else}}	
+							    	<tbody>					    						    	
+								      <tr>					        							        
+								        <td><strong style="color: #21618c">{{formatDate2 inicio}} </strong></td>
+								      	<td><strong>{{formatDate1 inicio}} - {{formatDate1 fin}}</strong></td>					    
+								    	<td>{{profesional.nombreApellido}}</td>
+								    	<td>{{estado}}</td>
+								      </tr>
+								    </tbody>
+							    {{/if}}
+							    
+							{{/each}}					      			      
+						    
+						</table>					  
+					</div> 					
+			  	</div>
+			</div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="borrarInfoBuscar btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+      
+    </div>
+</div>
+
+<!-- ********************** MODAL INFO DE LOS TRATAMIENTOS *********************-->
+<div class="modal" id="modalInfoTratamientos" role="dialog">									  	
+  	<div class="modal-dialog modal-md">										    
+
+      <!-- Modal content-->
+      <div class="modal-content">
+      	
+        
+        <div class="modal-body">
+			<div class="panel panel-info">
+			  	<div class="panel-heading">
+			  		<button type="button" class="close" data-dismiss="modal">&times;</button>          
+			  		<h3>Información de los tratamientos</h3>
+			  	</div>					  	
+			  	<div class="panel-body">
+			  		<table class="table table-hover">				  						
+					    <tbody>
+					    {{#each ModalInfoTratamientos}}
+					    	<tr>						      	
+						      	<td><strong>{{nombre}}</strong> / {{duracion}} min / $ {{importe}}</td>
+						    </tr>						    
+						{{/each}}					      			      
+					    </tbody>	
+					</table>
+					<div class="form-group">
+					  <label for="usr">Notas</label>
+					  <textarea disabled class="form-control" rows="5" id="motivo" value={{ModalInfoTurno.motivo}}></textarea>
+					</div>				
+			  	</div>
+			</div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+      
+    </div>
+</div>
+
+	{{>modalesErrores}}			
+
+
+<!--*************************************************FIN VENTANAS MODALES*******************************************-->
+
+<div class="row">
+	<div class="col-xs-12 col-md-4">
+      	<select class="form-control" id="profesionales1">
+      			<option>Seleccione profesional...</option>
+        	{{#each profesionales1}}
+		        <option value="{{_id}}">{{nombreApellido}}</option>
+    		 {{/each}}
+      	</select>	      	
+  	</div>
+  	{{#if profesional1.combos}}
+  		{{#if ActualizarVista}}  				
+  			<div class="col-xs-12 col-md-6">				
+				{{#Multiselect name='multiple' menuItems=myMenuItems selectedList=mySelectedList configOptions=myConfigOptions}}				    
+				    <option value={{value}} {{selectedAttr}}>{{caption}}</option>
+				{{/Multiselect}}					
+  			</div>
+  		{{else}}
+  			<div class="col-xs-12 col-md-6">	  		
+		  		{{#Multiselect name='multiple' menuItems=myMenuItems selectedList=mySelectedList configOptions=myConfigOptions}}				    
+				    <option value={{value}} {{selectedAttr}}>{{caption}}</option>
+				{{/Multiselect}}
+		  	</div>
+  		{{/if}}
+  	{{else}}
+  		<div class="col-xs-12 col-md-6">	  		
+  			<select class="form-control" id="tratamiento1">
+    			<option>Seleccione especialidad...</option>	        	
+      			{{#each tratamientos1}}
+		        	<option value="{{_id}}">{{nombre}} / {{duracion}} min</option>
+    		 	{{/each}}
+  			</select>
+
+  		</div>
+  	{{/if}}
+  	<div class="col-xs-6 col-md-1">   		
+   		<h4><strong>{{duracion1}} min</strong></h4><!--<label for="input_text">{{duracion1}} min</label>-->
+   	</div>
+   	<div class="col-xs-6 col-md-1">
+   		<a href="#" class="glyphicon glyphicon-search" style="color: #21618c; font-size: 27px" data-toggle="modal" data-target="#modalBuscarTurnos"></a>   		
+   	</div>  	
+</div>
+<div class="row">	
+
+    <div class="col-xs-12 col-md-3">
+    	
+        <div id="datetimepicker1"></div>      
+    	
+    </div>	    
+    <div class="col-xs-12 col-md-9">			
+		<table class="table table-hover">
+			<thead>
+		      <tr>				          	
+	          	<th class="#80cbc4 teal-text">INICIO</th>
+	          	<th class="#80cbc4 teal-text">FIN</th>
+	          	<th class="#80cbc4 teal-text">PACIENTE</th>
+	          	<th class="#80cbc4 teal-text"></th>
+	          	<th class="#80cbc4 teal-text">DURACION</th>
+	          	<th class="#80cbc4 teal-text">$</th>
+	          	<th class="#80cbc4 teal-text">ESTADO</th>
+	          	<th class="#80cbc4 teal-text">ACCION</th>
+		      </tr>
+		    </thead>
+		    
+		    	{{#if turnos.count}}
+		    		{{#each turnos}}
+		    			{{#if compare estado "OCUPADO"}}							    	
+					    	<tbody>					    						    	
+						      <tr class="info">					        							        
+						        <td>{{formatDate1 inicio}}</td>
+						        <td>{{formatDate1 fin}}</td>							        
+						        <td><a href="#" id="modalInfoPaciente">{{paciente.nombreApellido}}</a></td>
+						        <td><a href="#" id="modalInfoTratamientos"><button class="btn btn-info btn-xs">info</button></a></td>
+						        <td>{{duracion}} min</td>
+						        <td>$ {{importe}}</td>
+						        <td>{{estado}}</td>
+						        <td>
+									<div class="btn-group">
+									  <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									    Acción<span class="caret"></span>
+									  </button>
+									  <ul class="dropdown-menu">
+									    <li><a href="#" class="asistioTurno">Asistió</a></li>
+									    <li><a href="#" class="faltoTurno">Faltó</a></li>
+									    <li><a href="#" class="ocupadoTurno">Ocupado</a></li>
+									    <li><a href="#" class="confirmadoTurno">Confirmado</a></li>
+									    <li><a href="#" class="atendidoTurno">Atendido</a></li>
+									    <li role="separator" class="divider"></li>
+									    <li><a href="#" class="modalRemoveTurno">Eliminar</a></li>								    
+									  </ul>
+									</div>
+								</td>
+						        <!--<td><a href="#" class="modalRemoveTurno btn btn-danger btn-xs">Eliminar</a></td>-->
+						      </tr>
+						    </tbody>
+					    {{else}}
+					    	{{#if compare estado "ASISTIO"}}
+						    	<tbody>					    						    	
+							      <tr class="success">					        							        
+							        <td>{{formatDate1 inicio}}</td>
+							        <td>{{formatDate1 fin}}</td>							        
+							        <td><a href="#" id="modalInfoPaciente">{{paciente.nombreApellido}}</a></td>
+							        <td><a href="#" id="modalInfoTratamientos"><button class="btn btn-info btn-xs">info</button></a></td>
+							        <td>{{duracion}} min</td>
+							        <td>$ {{importe}}</td>
+							        <td>{{estado}}</td>
+							        <td>
+										<div class="btn-group">
+										  <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										    Acción<span class="caret"></span>
+										  </button>
+										  <ul class="dropdown-menu">
+										    <li><a href="#" class="asistioTurno">Asistió</a></li>
+										    <li><a href="#" class="faltoTurno">Faltó</a></li>
+										    <li><a href="#" class="ocupadoTurno">Ocupado</a></li>
+										    <li><a href="#" class="confirmadoTurno">Confirmado</a></li>
+										    <li><a href="#" class="atendidoTurno">Atendido</a></li>
+										    <li role="separator" class="divider"></li>
+										    <li><a href="#" class="modalRemoveTurno">Eliminar</a></li>								    
+										  </ul>
+										</div>
+									</td>
+							        <!--<td><a href="#" class="modalRemoveTurno btn btn-danger btn-xs">Eliminar</a></td>-->
+							      </tr>
+							    </tbody>
+					    	{{else}}
+					    		{{#if compare estado "FALTO"}}
+							    	<tbody>					    						    	
+								      <tr class="danger">					        							        
+								        <td>{{formatDate1 inicio}}</td>
+								        <td>{{formatDate1 fin}}</td>							        
+								        <td><a href="#" id="modalInfoPaciente">{{paciente.nombreApellido}}</a></td>
+								        <td><a href="#" id="modalInfoTratamientos"><button class="btn btn-info btn-xs">info</button></a></td>
+								        <td>{{duracion}} min</td>
+								        <td>$ {{importe}}</td>
+								        <td>{{estado}}</td>
+								        <td>
+											<div class="btn-group">
+											  <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											    Acción<span class="caret"></span>
+											  </button>
+											  <ul class="dropdown-menu">
+											    <li><a href="#" class="asistioTurno">Asistió</a></li>
+											    <li><a href="#" class="faltoTurno">Faltó</a></li>
+											    <li><a href="#" class="ocupadoTurno">Ocupado</a></li>
+											    <li><a href="#" class="confirmadoTurno">Confirmado</a></li>
+											    <li><a href="#" class="atendidoTurno">Atendido</a></li>
+											    <li role="separator" class="divider"></li>
+											    <li><a href="#" class="modalRemoveTurno">Eliminar</a></li>								    
+											  </ul>
+											</div>
+										</td>
+								        <!--<td><a href="#" class="modalRemoveTurno btn btn-danger btn-xs">Eliminar</a></td>-->
+								      </tr>
+								    </tbody>
+					    		{{else}}
+					    			{{#if compare estado "CONFIRMADO"}}
+								    	<tbody>					    						    	
+									      <tr class="warning">					        							        
+									        <td>{{formatDate1 inicio}}</td>
+									        <td>{{formatDate1 fin}}</td>							        
+									        <td><a href="#" id="modalInfoPaciente">{{paciente.nombreApellido}}</a></td>
+									        <td><a href="#" id="modalInfoTratamientos"><button class="btn btn-info btn-xs">info</button></a></td>
+									        <td>{{duracion}} min</td>
+									        <td>$ {{importe}}</td>
+									        <td>{{estado}}</td>
+									        <td>
+												<div class="btn-group">
+												  <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+												    Acción<span class="caret"></span>
+												  </button>
+												  <ul class="dropdown-menu">
+												    <li><a href="#" class="asistioTurno">Asistió</a></li>
+												    <li><a href="#" class="faltoTurno">Faltó</a></li>
+												    <li><a href="#" class="ocupadoTurno">Ocupado</a></li>
+												    <li><a href="#" class="confirmadoTurno">Confirmado</a></li>
+												    <li><a href="#" class="atendidoTurno">Atendido</a></li>
+												    <li role="separator" class="divider"></li>
+												    <li><a href="#" class="modalRemoveTurno">Eliminar</a></li>								    
+												  </ul>
+												</div>
+											</td>
+									        <!--<td><a href="#" class="modalRemoveTurno btn btn-danger btn-xs">Eliminar</a></td>-->
+									      </tr>
+									    </tbody>									    
+									{{else}}
+										{{#if compare estado "ATENDIDO"}}
+									    	<tbody>					    						    	
+										      <tr class="success">					        							        
+										        <td><s>{{formatDate1 inicio}}</s></td>
+										        <td><s>{{formatDate1 fin}}</s></td>							        
+										        <td><a href="#" id="modalInfoPaciente"><s>{{paciente.nombreApellido}}</s></a></td>
+										        <td><a href="#" id="modalInfoTratamientos"><button class="btn btn-info btn-xs">info</button></a></td>
+										        <td><s>{{duracion}} min</s></td>
+										        <td><s>$ {{importe}}</s></td>
+										        <td><s>{{estado}}</s></td>
+										        <td>
+													<div class="btn-group">
+													  <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+													    Acción<span class="caret"></span>
+													  </button>
+													  <ul class="dropdown-menu">
+													    <li><a href="#" class="asistioTurno">Asistió</a></li>
+													    <li><a href="#" class="faltoTurno">Faltó</a></li>
+													    <li><a href="#" class="ocupadoTurno">Ocupado</a></li>
+													    <li><a href="#" class="confirmadoTurno">Confirmado</a></li>
+													    <li><a href="#" class="atendidoTurno">Atendido</a></li>
+													    <li role="separator" class="divider"></li>
+													    <li><a href="#" class="modalRemoveTurno">Eliminar</a></li>								    
+													  </ul>
+													</div>
+												</td>										        
+										      </tr>
+										    </tbody>
+										    {{else}}
+										    	{{#if compare estado "SOBRETURNO"}}
+											    	<tbody>					    						    	
+												      <tr class="danger">					        							        
+												        <td><p class="text-danger"><strong>{{formatDate1 inicio}}</strong></p></td>
+												        <td><p class="text-danger"><strong>{{formatDate1 fin}}</strong></p></td>							        
+												        <td><a href="#" id="modalInfoPaciente" class="text-danger"><strong>{{paciente.nombreApellido}}</strong></a></td>
+												        <td><a href="#" id="modalInfoTratamientos" class="text-danger"><button class="btn btn-info btn-xs">info</button></a></td>
+												        <td><p class="text-danger"><strong>{{duracion}} min</strong></p></td>
+												        <td><p class="text-danger"><strong>$ {{importe}}</strong></p></td>
+												        <td><p class="text-danger"><strong>{{estado}}</strong></p></td>
+												        <td>
+															<div class="btn-group">
+															  <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+															    Acción<span class="caret"></span>
+															  </button>
+															  <ul class="dropdown-menu">
+															  	<li><a href="#" class="atendidoSobreTurno">Atendido</a></li>
+															  	<li><a href="#" class="faltoSobreTurno">Faltó</a></li>
+															    <li role="separator" class="divider"></li>
+															    <li><a href="#" class="modalRemoveTurno">Eliminar</a></li>
+															  </ul>
+															</div>
+														</td>										        
+												      </tr>
+												    </tbody>
+										    	{{else}}
+										    		{{#if compare estado "SOBRETURNO ATENDIDO"}}
+												    	<tbody>					    						    	
+													      <tr class="danger">					        							        
+													        <td><p class="text-danger"><s><strong>{{formatDate1 inicio}}</strong></s></p></td>
+													        <td><p class="text-danger"><s><strong>{{formatDate1 fin}}</strong></s></p></td>							        
+													        <td><a href="#" id="modalInfoPaciente" class="text-danger"><s><strong>{{paciente.nombreApellido}}</strong></s></a></td>
+													        <td><a href="#" id="modalInfoTratamientos" class="text-danger"><button class="btn btn-info btn-xs">info</button></a></td>
+													        <td><p class="text-danger"><s><strong>{{duracion}} min</strong></s></p></td>
+													        <td><p class="text-danger"><s><strong>$ {{importe}}</strong></s></p></td>
+													        <td><p class="text-danger"><s><strong>ATENDIDO</strong></s></p></td>
+													        <td>
+																<div class="btn-group">
+																  <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+																    Acción<span class="caret"></span>
+																  </button>
+																  <ul class="dropdown-menu">
+																  	<li><a href="#" class="atendidoSobreTurno">Atendido</a></li>
+																  	<li><a href="#" class="faltoSobreTurno">Faltó</a></li>
+																    <li role="separator" class="divider"></li>
+																    <li><a href="#" class="modalRemoveTurno">Eliminar</a></li>
+																  </ul>
+																</div>
+															</td>										        
+													      </tr>
+													    </tbody>
+												    {{else}}
+												    {{#if compare estado "SOBRETURNO FALTO"}}
+												    	<tbody>					    						    	
+													      <tr class="danger">					        							        
+													        <td><p class="text-danger"><strong>{{formatDate1 inicio}}</strong></p></td>
+													        <td><p class="text-danger"><strong>{{formatDate1 fin}}</strong></p></td>							        
+													        <td><a href="#" id="modalInfoPaciente" class="text-danger"><strong>{{paciente.nombreApellido}}</strong></a></td>
+													        <td><a href="#" id="modalInfoTratamientos" class="text-danger"><button class="btn btn-info btn-xs">info</button></a></td>
+													        <td><p class="text-danger"><strong>{{duracion}} min</strong></p></td>
+													        <td><p class="text-danger"><strong>$ {{importe}}</strong></p></td>
+													        <td><p class="text-danger"><strong>FALTO</strong></p></td>
+													        <td>
+																<div class="btn-group">
+																  <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+																    Acción<span class="caret"></span>
+																  </button>
+																  <ul class="dropdown-menu">
+																  	<li><a href="#" class="atendidoSobreTurno">Atendido</a></li>
+																  	<li><a href="#" class="faltoSobreTurno">Faltó</a></li>
+																    <li role="separator" class="divider"></li>
+																    <li><a href="#" class="modalRemoveTurno">Eliminar</a></li>
+																  </ul>
+																</div>
+															</td>										        
+													      </tr>													    
+													    </tbody>
+													    {{else}}
+													    	<tbody>
+													      		<tr>						    								    		
+															        <td>{{formatDate1 inicio}}</td>
+															        <td>{{formatDate1 fin}}</td>
+															        <td></td>
+															        <td></td>	
+															        <td>{{duracion}} min</td>
+															        <td></td>
+															        <td>{{estado}}</td>							        							        
+															        <td>
+															        {{#if tratamiento1.sobreturno }}
+														        		<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modalIngresoSobreTurno">Reservar</button>
+														        	{{else}}
+														        		<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modalIngresoTurno">Reservar</button>
+														        	{{/if}}
+													        	</td>
+														    	</tr>
+														    </tbody>
+														{{/if}}
+													{{/if}}
+												{{/if}}
+											{{/if}}
+									{{/if}}
+					    		{{/if}}
+					    	{{/if}}
+					    {{/if}}
+		      		{{/each}}
+		      	{{else}}
+		      		<tbody>
+		      		<tr class="active">						    								    		
+				        <td></td>
+				        <td></td>
+				        <td></td>
+				        <td></td>
+				        <td></td>	
+				        <td></td>
+				        <td>LIBRE</td>				        
+				        <td>{{#if tratamiento1.sobreturno }}				        
+				        		<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modalIngresoSobreTurno">Reservar</button>
+				        	{{else}}
+				        		<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modalIngresoTurno">Reservar</button>
+				        	{{/if}}
+				        </td>				        
+			    	</tr>
+			    	</tbody>
+			   	{{/if}}
+		    	
+		</table>				
+	</div>		
+</div>
+</template>
+
+
