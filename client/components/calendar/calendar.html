@@ -1,15 +1,5 @@
 <template name="calendar">
 
-	
-
-<!--
-<style>
-	.event a {
-		background: #f1948a  !important;
-		background-color: #f1948a  !important;
-		color: white !important;
-	}
-</style>-->
 
 <!--**************************************INICIO VENTANAS MODALES************************************-->
 
@@ -335,9 +325,6 @@
 </div>	
 
 
-
-
-
 <!-- ******************MODAL CREAR PACIENTE********************************-->
 <div class="modal" id="modalIngresoPaciente" role="dialog">
   	<div class="modal-dialog modal-md">			    
@@ -370,6 +357,39 @@
       	</div>
     </div>
 </div>
+
+<!-- ******************MODAL HISTORIA CLINICA ********************************-->
+<div class="modal" id="modalHistoriaClinica2" role="dialog">
+  	<div class="modal-dialog modal-md">			    
+      	<!-- Modal content-->
+      	<div class="modal-content">
+	        <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal">&times;</button>
+	          <h4 class="modal-title">Nueva Historia clinica</h4>
+	        </div>			        
+		    <form class="form" id="formHistoriaClinica">						    
+			    <div class="modal-body">				  	
+				  	<div class="form-group">
+					  <label for="imagen">Imagen</label>
+					  <input type="text" class="form-control" id="imagen">
+					</div>
+				  	<div class="form-group">
+					  <label for="comentario">Comentario</label>
+					  <textarea class="form-control" rows="5" id="comentario"></textarea>
+					</div>
+
+				  	
+				</div>
+				<div class="modal-footer">
+		        	<button type="submit" id="submit" class="btn btn-success">Guardar</button>        	
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>		        
+			    </div>							
+		    </form>			        
+      	</div>
+    </div>
+</div>
+
+
 
 <!-- ********************** MODAL INFO DEL PACIENTE EN EL TURNO *********************-->
 <div class="modal" id="modalInfoPaciente" role="dialog">									  	
@@ -625,6 +645,7 @@
 	          	<th class="#80cbc4 teal-text">FIN</th>
 	          	<th class="#80cbc4 teal-text">PACIENTE</th>
 	          	<th class="#80cbc4 teal-text"></th>
+	          	<th class="#80cbc4 teal-text"></th>
 	          	<th class="#80cbc4 teal-text">DURACION</th>
 	          	<th class="#80cbc4 teal-text">$</th>
 	          	<th class="#80cbc4 teal-text">ESTADO</th>
@@ -641,6 +662,7 @@
 						        <td>{{formatDate1 fin}}</td>							        
 						        <td><a href="#" id="modalInfoPaciente">{{paciente.nombreApellido}}</a></td>
 						        <td><a href="#" id="modalInfoTratamientos"><button class="btn btn-info btn-xs">info</button></a></td>
+						        <td><a href="#" id="modalHistoriaClinica1"><button class="btn btn-info btn-xs">+Hist</button></a></td>
 						        <td>{{duracion}} min</td>
 						        <td>$ {{importe}}</td>
 						        <td>{{estado}}</td>
@@ -671,6 +693,7 @@
 							        <td>{{formatDate1 fin}}</td>							        
 							        <td><a href="#" id="modalInfoPaciente">{{paciente.nombreApellido}}</a></td>
 							        <td><a href="#" id="modalInfoTratamientos"><button class="btn btn-info btn-xs">info</button></a></td>
+							        <td><a href="#" id="modalHistoriaClinica1"><button class="btn btn-info btn-xs">+Hist</button></a></td>
 							        <td>{{duracion}} min</td>
 							        <td>$ {{importe}}</td>
 							        <td>{{estado}}</td>
@@ -701,6 +724,7 @@
 								        <td>{{formatDate1 fin}}</td>							        
 								        <td><a href="#" id="modalInfoPaciente">{{paciente.nombreApellido}}</a></td>
 								        <td><a href="#" id="modalInfoTratamientos"><button class="btn btn-info btn-xs">info</button></a></td>
+								        <td><a href="#" id="modalHistoriaClinica1"><button class="btn btn-info btn-xs">+Hist</button></a></td>
 								        <td>{{duracion}} min</td>
 								        <td>$ {{importe}}</td>
 								        <td>{{estado}}</td>
@@ -731,6 +755,7 @@
 									        <td>{{formatDate1 fin}}</td>							        
 									        <td><a href="#" id="modalInfoPaciente">{{paciente.nombreApellido}}</a></td>
 									        <td><a href="#" id="modalInfoTratamientos"><button class="btn btn-info btn-xs">info</button></a></td>
+									        <td><a href="#" id="modalHistoriaClinica1"><button class="btn btn-info btn-xs">+Hist</button></a></td>
 									        <td>{{duracion}} min</td>
 									        <td>$ {{importe}}</td>
 									        <td>{{estado}}</td>
@@ -761,6 +786,7 @@
 										        <td><s>{{formatDate1 fin}}</s></td>							        
 										        <td><a href="#" id="modalInfoPaciente"><s>{{paciente.nombreApellido}}</s></a></td>
 										        <td><a href="#" id="modalInfoTratamientos"><button class="btn btn-info btn-xs">info</button></a></td>
+										        <td><a href="#" id="modalHistoriaClinica1"><button class="btn btn-info btn-xs">+Hist</button></a></td>
 										        <td><s>{{duracion}} min</s></td>
 										        <td><s>$ {{importe}}</s></td>
 										        <td><s>{{estado}}</s></td>
@@ -790,6 +816,7 @@
 												        <td><p class="text-danger"><strong>{{formatDate1 fin}}</strong></p></td>							        
 												        <td><a href="#" id="modalInfoPaciente" class="text-danger"><strong>{{paciente.nombreApellido}}</strong></a></td>
 												        <td><a href="#" id="modalInfoTratamientos" class="text-danger"><button class="btn btn-info btn-xs">info</button></a></td>
+												        <td><a href="#" id="modalHistoriaClinica1"><button class="btn btn-info btn-xs">+Hist</button></a></td>
 												        <td><p class="text-danger"><strong>{{duracion}} min</strong></p></td>
 												        <td><p class="text-danger"><strong>$ {{importe}}</strong></p></td>
 												        <td><p class="text-danger"><strong>{{estado}}</strong></p></td>
@@ -816,6 +843,7 @@
 													        <td><p class="text-danger"><s><strong>{{formatDate1 fin}}</strong></s></p></td>							        
 													        <td><a href="#" id="modalInfoPaciente" class="text-danger"><s><strong>{{paciente.nombreApellido}}</strong></s></a></td>
 													        <td><a href="#" id="modalInfoTratamientos" class="text-danger"><button class="btn btn-info btn-xs">info</button></a></td>
+													        <td><a href="#" id="modalHistoriaClinica1"><button class="btn btn-info btn-xs">+Hist</button></a></td>
 													        <td><p class="text-danger"><s><strong>{{duracion}} min</strong></s></p></td>
 													        <td><p class="text-danger"><s><strong>$ {{importe}}</strong></s></p></td>
 													        <td><p class="text-danger"><s><strong>ATENDIDO</strong></s></p></td>
@@ -842,6 +870,7 @@
 													        <td><p class="text-danger"><strong>{{formatDate1 fin}}</strong></p></td>							        
 													        <td><a href="#" id="modalInfoPaciente" class="text-danger"><strong>{{paciente.nombreApellido}}</strong></a></td>
 													        <td><a href="#" id="modalInfoTratamientos" class="text-danger"><button class="btn btn-info btn-xs">info</button></a></td>
+													        <td><a href="#" id="modalHistoriaClinica1"><button class="btn btn-info btn-xs">+Hist</button></a></td>
 													        <td><p class="text-danger"><strong>{{duracion}} min</strong></p></td>
 													        <td><p class="text-danger"><strong>$ {{importe}}</strong></p></td>
 													        <td><p class="text-danger"><strong>FALTO</strong></p></td>
@@ -865,6 +894,7 @@
 													      		<tr>						    								    		
 															        <td>{{formatDate1 inicio}}</td>
 															        <td>{{formatDate1 fin}}</td>
+															        <td></td>
 															        <td></td>
 															        <td></td>	
 															        <td>{{duracion}} min</td>
@@ -896,6 +926,7 @@
 				        <td></td>
 				        <td></td>
 				        <td></td>	
+				        <td></td>
 				        <td></td>
 				        <td>LIBRE</td>				        
 				        <td>{{#if tratamiento1.sobreturno }}				        

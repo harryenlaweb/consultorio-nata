@@ -194,9 +194,12 @@
 	  	<div class="panel-heading"><strong><h3>Lista de profesionales</h3></strong></div>
 	  	<div class="panel-body">		    
 		    <div class="col-lg-12">
-			    <a class="btn btn-success btn-md" href="{{ pathFor 'profesional_form'}}">
-					Añadir nuevo profesional
-				</a>					
+			    {{#if isInRole 'adminconsultorio'}}
+					<a class="btn btn-success btn-md" href="{{ pathFor 'profesional_form'}}">
+						Añadir nuevo profesional
+					</a>
+					{{/if}}	
+
 		      		{{> EasySearch.Input index=profesionales attributes=searchAttributes }}
 		      		<hr />
 	      	</div>			
@@ -205,7 +208,8 @@
 					<thead>
 				      <tr>
 			          	<th class="#80cbc4 teal-text">NOMBRE Y APELLIDO</th>
-			          	<th class="#80cbc4 teal-text">ESPECIALIDAD</th>
+			          	<th class="#80cbc4 teal-text">EMAIL</th>
+						<th class="#80cbc4 teal-text">ESPECIALIDAD</th>
 	                    <th class="#80cbc4 teal-text"></th>
 				      </tr>
 				    </thead>
@@ -213,13 +217,20 @@
 				    	{{#EasySearch.Each index=profesionales}}	
 				      <tr>
 				        <td>{{nombreApellido}}</td>
+						<td>{{email}}</td>
 				        <td>{{especialidad}}</td>
 				        <td>
-				        	<span class="right">		
-							<a href="{{ pathFor 'profesional_tratamiento' _id=_id}}" class="btn btn-success btn-xs">Especialidades</a>
-							<a href="#"	class="modalProfesionalInfo btn btn-info btn-xs">Detalle</a>
-							<a href="#" class="modalProfesionalEditar btn btn-warning btn-xs">Editar</a>
-							<a href="#" class="modalRemoveProfesional btn btn-danger btn-xs">Eliminar</a>								
+				        	<span class="right">										
+							{{#if isInRole 'operador'}}							
+								<a href="{{ pathFor 'profesional_tratamiento' _id=_id}}" class="btn btn-success btn-xs">Especialidades</a>
+								<a href="#"	class="modalProfesionalInfo btn btn-info btn-xs">Detalle</a>
+							{{/if}}	
+							{{#if isInRole 'adminconsultorio'}}							
+								<a href="#"	class="modalProfesionalInfo btn btn-info btn-xs">Detalle</a>
+								<a href="#" class="modalProfesionalEditar btn btn-warning btn-xs">Editar</a>
+								<a href="#" class="modalRemoveProfesional btn btn-danger btn-xs">Eliminar</a>
+							{{/if}}								
+							
 							</span>
 						</td>
 				      </tr>

@@ -23,6 +23,7 @@ Template.calendar.onCreated(function(){
   this.selImporte = new ReactiveVar(0);  
   this.selModalInfoPaciente = new ReactiveVar();
   this.selModalInfoTratamientos = new ReactiveVar([]);
+  this.selModalHistoriaClinica = new ReactiveVar(null);
   this.selModalInfoTurno = new ReactiveVar(null);
   this.selTurnoEliminar = new ReactiveVar(null);
   this.selMyMenuItems = new ReactiveVar([]);  
@@ -420,6 +421,26 @@ Template.calendar.events({
       $('#modalIngresoPaciente').modal('hide'); //CIERRO LA VENTANA MODAL
   },
 
+  //************************************** FORMULARIO MODAL PARA CARGAR HISTORIA CLINICA **********************************
+  'submit #formHistoriaClinica':function(event) {              
+      event.preventDefault();     
+      const target = event.target;
+      
+      var turno = Template.instance().selModalHistoriaClinica.get();      
+      idPaciente = turno.paciente._id;
+      var ingresoComentario = target.comentario.value;       
+      
+      let hist= { comentario: ingresoComentario,            
+      };   
+      
+      console.log(hist);
+      Pacientes.update({_id:idPaciente},{$push:{mishistorias:hist}});     
+
+      $('#modalHistoriaClinica2').modal('hide'); //CIERRO LA VENTANA MODAL
+  },
+
+
+
   //*******************************MUESTRO LOS DATOS DEL PACIENTE DEL TURNO********************************
   'click #modalInfoPaciente': function(event, template){       
       var turnoId = this._id;
@@ -431,11 +452,19 @@ Template.calendar.events({
   //*******************************MUESTRO LOS DATOS DE LOS TRATAMIENTOS DEL TURNO********************************
   'click #modalInfoTratamientos': function(event, template){       
       var turnoId = this._id;
-      var turno = Turnos.findOne({"_id":turnoId});       
+      var turno = Turnos.findOne({"_id":turnoId});      
       Template.instance().selModalInfoTurno.set(turno);      
       Template.instance().selModalInfoTratamientos.set(turno.tratamientos);      
       $('#modalInfoTratamientos').modal('show');
-    },  
+    },
+
+    //*******************************MUESTRO LOS DATOS DE LOS TRATAMIENTOS DEL TURNO********************************
+  'click #modalHistoriaClinica1': function(event, template){       
+      var turnoId = this._id;
+      var turno = Turnos.findOne({"_id":turnoId});       
+      Template.instance().selModalHistoriaClinica.set(turno);//recupero el turno seleccionado      
+      $('#modalHistoriaClinica2').modal('show');
+    },      
 
   //***********************************ELIMINO UN TURNO*****************************************
 
