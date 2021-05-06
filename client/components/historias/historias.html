@@ -20,19 +20,19 @@
 			    {{#if mishistorias}}
 					<table class="table table-hover">
 						<thead>
-					      <tr>
-				          	<th class="#80cbc4 teal-text">FECHA</th>
+					      <tr>				          	
 				          	<th class="#80cbc4 teal-text">COMENTARIOS</th>
 							<th class="#80cbc4 teal-text">IMAGEN</th>
+							<th class="#80cbc4 teal-text">FECHA</th>
 		                    <th class="#80cbc4 teal-text"></th>
 					      </tr>
 					    </thead>
 					    <tbody>
 					    	{{#each mishistorias}}
-					      <tr>
-					        <td>{{fecha}}</td>
+					      <tr>					        
 					        <td>{{comentario}}</td>
 					        <td>{{imagen}}</td>
+					        <td><strong style="color: #21618c">{{formatDate2 fecha}} </strong></td>					        
 					        <td><a href="#" class="modalProfesionalEditar btn btn-warning btn-xs">Editar</a></td>
 					      </tr>
 					      	{{/each}}

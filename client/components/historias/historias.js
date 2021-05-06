@@ -22,6 +22,10 @@ Template.historias.helpers({
   },
 })
 
+Template.registerHelper('formatDate2', function(date) {
+  return moment(date).format('DD-MM-YYYY');
+});
+
 Template.historias.events({
 	'click .agregarHistoria': function(event, template){		
 		let historiaSeleccionada = Historias.findOne({"_id":this._id});//obtengo el tratamiento seleccionado (objeto)
