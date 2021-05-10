@@ -38,7 +38,7 @@ Template.operadorForm.events({
 	    var ingresoTelefono = null;    
 	    var ingresoEmail = null;
 	    var ingresoFechaNacimiento = null;
-	    var ingresoSexo = null;
+	    //var ingresoSexo = null;
 	    var ingresoDescripcion = null;    
 
 		if (target.nombreApellido.value){var ingresoNombre = target.nombreApellido.value};
@@ -50,14 +50,16 @@ Template.operadorForm.events({
 			ingresoFechaNacimiento = moment(ingresoFechaNacimiento, "DD-MM-YYYY");
 			ingresoFechaNacimiento = new Date(ingresoFechaNacimiento);//.toDateString("dd-MM-yyyy");			
 		};
-		if (target.sexo.value){var ingresoSexo = target.sexo.value};  
+		//if (target.sexo.value){var ingresoSexo = target.sexo.value};  
 		if (target.descripcion.value){var ingresoDescripcion = target.descripcion.value};         
 	    
+	    var usuarioLogueado = Meteor.userId(); // EL ID DEL CONSULTORIO ES EL ID DEL ADMINISTRADOR LOGUEADO
+
 	    var usuario= new Object();            
 		usuario.email=ingresoEmail;   
 		usuario.pass=ingresoDni;   //SETEA LA CONTRASEÑA CON EL EMAIL
 		usuario.name=ingresoNombre;
-		usuario.idConsultorio=Meteor.userId();
+		usuario.idConsultorio=usuarioLogueado;
 		usuario.cargo_roles="operador";  
 		
 		Meteor.call("new_user_consultorio", usuario, function(error, result){  //llamo al metedo que crea el usuario del lado servidor      
@@ -67,11 +69,12 @@ Template.operadorForm.events({
 	       if(result){         
 	         Operadores.insert({				
 		        nombreApellido : ingresoNombre,
+		        idConsultorio: usuarioLogueado,
 		        dni : ingresoDni,		        
 		        telefono : ingresoTelefono,
 		        email : ingresoEmail,
 		        fechaNacimiento : ingresoFechaNacimiento,
-		        sexo : ingresoSexo,
+		        //sexo : ingresoSexo,
 		        descripcion : ingresoDescripcion,  
 			});
 

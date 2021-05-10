@@ -34,7 +34,7 @@
     </div>
 </div>
 
-<!-- ********************** MODAL INFO DEL PROFESIONAL *********************-->
+<!-- ********************** MODAL INFO HISTORIA *********************-->
 <div class="modal" id="modalInfoHistoria2" role="dialog">									  	
   	<div class="modal-dialog modal-md">										    
       <div class="modal-content">
@@ -59,7 +59,7 @@
 					      </tr>	
 					      <tr>
 					      	<td><strong><p>Imágen</p></strong></td>
-					      	<td><a href="{{historiaInfo.link}}?download=true" download="{{historiaInfo.name}}"> {{historiaInfo.name}} </a></td>
+					      	<td><a href="{{historiaInfo.link}}?download=true" download="{{historiaInfo.name}}" target="_blank"> {{historiaInfo.name}} </a></td>
 					      </tr>			      
 					    </tbody>	
 					</table>
@@ -111,7 +111,7 @@
 				    	{{#each mishistorias}}
 				      <tr>					        
 				        <td>{{comentario}}</td>
-				        <td><a href="{{link}}?download=true" download="{{name}}"> {{name}} </a></td>
+				        <td><a href="{{link}}?download=true" download="{{name}}" target="_blank"> {{name}} </a></td>
 				        <td><strong style="color: #21618c">{{formatDate2 fecha}} </strong></td>					        
 				        <td><a href="#" id="modalEditarHistoria1" class="btn btn-warning btn-xs">Editar</a>
 				            <a href="#"	id="modalInfoHistoria1" class="btn btn-info btn-xs">Detalle</a></td>

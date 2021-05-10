@@ -78,22 +78,22 @@
 					      	<td><strong><p>Importe</p></strong></td>
 					      	<td>$ {{tratamientoInfo.importe}}</td>
 					      </tr>
-					      <tr>
+					      <!--<tr>
 					      	<td><strong><p>Frecuencia</p></strong></td>
 					      	<td>{{tratamientoInfo.frecuencia}}</td>
 					      </tr>
 					      <tr>
 					      	<td><strong><p>¿La especialidad es para un Hombre o Mujer?</p></strong></td>
 					      	<td>{{tratamientoInfo.sexo}}</td>
-					      </tr>	
-					      <tr>
+					      </tr>	-->
+					      <!--<tr>
 					      	<td><strong><p>¿Es un sobreturno?</p></strong></td>
 					      	{{#if tratamientoInfo.sobreturno }}
 					      		<td>SI</td>
 					      	{{else}}
 					      		<td>NO</td>
 					      	{{/if}}
-					      </tr>				      
+					      </tr>-->
 					    </tbody>	
 					</table>
 			  		<div class="form-group">
@@ -129,28 +129,28 @@
 					</div>
 					<div class="form-group">
 					  <label for="usr">Duración</label>
-					  <input type="text" class="form-control" id="duracion" value={{tratamientoEditar.duracion}}>
+					  <input type="number" class="form-control" id="duracion" value={{tratamientoEditar.duracion}}>
 					</div>
 					<div class="form-group">
 					  <label for="usr">Importe</label>
-					  <input type="text" class="form-control" id="importe" value={{tratamientoEditar.importe}}>
+					  <input type="number" class="form-control" id="importe" value={{tratamientoEditar.importe}}>
 					</div>
-					<div class="form-group">
+					<!--<div class="form-group">
 					  <label for="usr">Frecuencia</label>
 					  <input type="text" class="form-control" id="frecuencia" value={{tratamientoEditar.frecuencia}}>
 					</div>						
 					<div class="form-group">
 					  <label for="usr">¿La especialidad es para un Hombre o Mujer?</label>
 					  <input type="text" class="form-control" id="sexo" value={{tratamientoEditar.sexo}}>
-					</div>
+					</div>-->
 					<div class="form-group">
 					  <label for="usr">Descripcion de la especialidad</label>
 					  <textarea class="form-control" rows="5" id="descripcion" value={{tratamientoEditar.descripcion}}></textarea>
 					</div>
-					<div class="checkbox">
+					<!--<div class="checkbox">
 					    <label>
 					    <input type="checkbox" id="sobreturno" value={{tratamientoEditar.sobreturno}}>¿Es un sobreturno?</label>
-					</div>
+					</div>-->
 			  	</div>
 			</div>
         </div> 
@@ -183,8 +183,7 @@
 				      <tr>
 			          	<th class="#80cbc4 teal-text">NOMBRE</th>
 			          	<th class="#80cbc4 teal-text">DURACION</th>
-	                    <th class="#80cbc4 teal-text">PRECIO</th>
-	                    <th class="#80cbc4 teal-text">MUJER/HOMBRE</th>
+	                    <th class="#80cbc4 teal-text">PRECIO</th>	                    
 	                    <th class="#80cbc4 teal-text"></th>
 				      </tr>
 				    </thead>
@@ -193,8 +192,7 @@
 				      <tr>
 				        <td>{{nombre}}</td>
 				        <td>{{duracion}} min</td>
-				        <td>$ {{importe}}</td>
-				        <td>{{sexo}}</td>
+				        <td>$ {{importe}}</td>				        
 				        <td>
 				        	<span class="right">									
 							<a href="#"	class="modalTratamientoInfo btn btn-info btn-xs">Detalle</a>

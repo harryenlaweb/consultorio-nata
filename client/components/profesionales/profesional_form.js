@@ -40,11 +40,11 @@ Template.profesionalForm.events({
 	    var ingresoTelefono = null;    
 	    var ingresoEmail = null;
 	    var ingresoFechaNacimiento = null;
-	    var ingresoSexo = null;
+	    //var ingresoSexo = null;
 	    var ingresoDescripcion = null;    
 
-		if (target.combos.value){var ingresoCombos = target.combos.checked};            
-		console.log('combos:',ingresoCombos);
+		//if (target.combos.value){var ingresoCombos = target.combos.checked};            
+		//console.log('combos:',ingresoCombos);
 		if (target.nombreApellido.value){var ingresoNombre = target.nombreApellido.value};
 		if (target.dni.value){var ingresoDni = target.dni.value};
 		if (target.especialidad.value){var ingresoEspecialidad = target.especialidad.value};
@@ -54,9 +54,9 @@ Template.profesionalForm.events({
 			ingresoFechaNacimiento = target.fechaNacimiento.value;		
 			ingresoFechaNacimiento = moment(ingresoFechaNacimiento, "DD-MM-YYYY");
 			ingresoFechaNacimiento = new Date(ingresoFechaNacimiento);//.toDateString("dd-MM-yyyy");
-			console.log("TAMBIEN ENTRO ACA!!!");
+			
 		};
-		if (target.sexo.value){var ingresoSexo = target.sexo.value};  
+		//if (target.sexo.value){var ingresoSexo = target.sexo.value};  
 		if (target.descripcion.value){var ingresoDescripcion = target.descripcion.value}; 
 
 		var usuarioLogueado = Meteor.userId(); // EL ID DEL CONSULTORIO ES EL ID DEL ADMINISTRADOR LOGUEADO
@@ -83,7 +83,7 @@ Template.profesionalForm.events({
 		        telefono : ingresoTelefono,
 		        email : ingresoEmail,
 		        fechaNacimiento : ingresoFechaNacimiento,
-		        sexo : ingresoSexo,
+		        //sexo : ingresoSexo,
 		        descripcion : ingresoDescripcion,  
 			});
 

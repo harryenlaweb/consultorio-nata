@@ -64,16 +64,17 @@ Template.historias.events({
 	      event.preventDefault(); 
 
 	      const target = event.target; 
-
-	      var otraImg = Template.instance().selCargarOtraImagen.get();	
+	      
+	      var otraImg = target.idCheckOtraImg.checked;
 	      console.log(otraImg);
 	      var paciente = template.data.paciente;//obtengo el paciente
 		  var historia = Template.instance().selHistoriaRecuperada.get();			    
 	      
 
 	      var idImage = null;
-	      var name = null;	      
-	      var linkImage = "#";
+	      var name = null;	 
+	      var extension = null;     
+	      var linkImage = null;
 
 	      if (otraImg){
 	      	if (target.fileInput.files && target.fileInput.files[0]) {      
@@ -94,7 +95,10 @@ Template.historias.events({
 	            uploadInstance.start();            
 
 	            idImage = uploadInstance.config.fileId;  
-	            name = uploadInstance.file.name;            
+	            name = uploadInstance.file.name; 
+	            extension = uploadInstance.file.extension;
+
+	            console.log(uploadInstance);
 
 	            linkImage = "http://localhost:3000/cdn/storage/Images/".concat(idImage,"/original/",idImage,".",extension);
 	          }
@@ -165,9 +169,9 @@ Template.historias.events({
 Template.historias.onRendered(function() {   
 
     //---------------------BORRO LOS DATOS DE LA VENTANAS MODALES-------------------  
-    $("#modalEditarHistoria2").on("hidden.bs.modal", function(){        
+    /*$("#modalEditarHistoria2").on("hidden.bs.modal", function(){        
         $(this).find("input,textarea,select").val('').end();
-    });   
+    });   */
 
     $("#modalInfoPaciente").on("hidden.bs.modal", function(){        
         $(this).find().val('').end();

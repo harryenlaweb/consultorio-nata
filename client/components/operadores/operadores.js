@@ -71,7 +71,7 @@ Template.operadores.events({
       var ingresoTelefono = null;    
       var ingresoEmail = null;
       var ingresoFechaNacimiento = null;
-      var ingresoSexo = null;
+      //var ingresoSexo = null;
       var ingresoDescripcion = null;    
       
       if (target.nombreApellido.value){var ingresoNombre = target.nombreApellido.value};
@@ -84,18 +84,18 @@ Template.operadores.events({
         ingresoFechaNacimiento = new Date(ingresoFechaNacimiento);//.toDateString("dd-MM-yyyy");
         console.log("TAMBIEN ENTRO ACA!!!");
       };
-      if (target.sexo.value){var ingresoSexo = target.sexo.value};  
+      //if (target.sexo.value){var ingresoSexo = target.sexo.value};  
       if (target.descripcion.value){var ingresoDescripcion = target.descripcion.value};          
       
-      var operador = Template.instance().selOperadorEditar.get();       
+      var operador = Template.instance().selOperadorEditar.get();             
 
-      Operadores.update({_id:operador._id},{$set: {        
+      Operadores.update({_id:operador._id},{$set: {                
         nombreApellido : ingresoNombre,
         dni : ingresoDni,        
         telefono : ingresoTelefono,
         email : ingresoEmail,
         fechaNacimiento : ingresoFechaNacimiento,
-        sexo : ingresoSexo,
+        //sexo : ingresoSexo,
         descripcion : ingresoDescripcion,            
       }});
       

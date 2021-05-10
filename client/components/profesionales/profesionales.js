@@ -76,10 +76,10 @@ Template.profesionales.events({
       var ingresoTelefono = null;    
       var ingresoEmail = null;
       var ingresoFechaNacimiento = null;
-      var ingresoSexo = null;
+      //var ingresoSexo = null;
       var ingresoDescripcion = null;    
 
-      if (target.combos.value){var ingresoCombos = target.combos.checked};                  
+      //if (target.combos.value){var ingresoCombos = target.combos.checked};                  
       if (target.nombreApellido.value){var ingresoNombre = target.nombreApellido.value};
       if (target.dni.value){var ingresoDni = target.dni.value};
       if (target.especialidad.value){var ingresoEspecialidad = target.especialidad.value};
@@ -90,7 +90,7 @@ Template.profesionales.events({
         ingresoFechaNacimiento = moment(ingresoFechaNacimiento, "DD-MM-YYYY");
         ingresoFechaNacimiento = new Date(ingresoFechaNacimiento);//.toDateString("dd-MM-yyyy");        
       };
-      if (target.sexo.value){var ingresoSexo = target.sexo.value};  
+      //if (target.sexo.value){var ingresoSexo = target.sexo.value};  
       if (target.descripcion.value){var ingresoDescripcion = target.descripcion.value};          
       
       var profesional = Template.instance().selProfesionalEditar.get();       
@@ -103,7 +103,7 @@ Template.profesionales.events({
         telefono : ingresoTelefono,
         email : ingresoEmail,
         fechaNacimiento : ingresoFechaNacimiento,
-        sexo : ingresoSexo,
+        //sexo : ingresoSexo,
         descripcion : ingresoDescripcion,            
       }});
       

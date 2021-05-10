@@ -14,8 +14,12 @@ Meteor.publish('tratamientos', function(){
 });
 
 Meteor.publish('profesionales', function(){	
-	return Profesionales.find({idConsultorio: Meteor.user().profile.idConsultorio});
-	//return Profesionales.find({});
+	if (Roles.userIsInRole(Meteor.user(), ['adminconsultorio'])) {
+			return Profesionales.find({owner: this.userId});
+		} else{
+		return Profesionales.find({idConsultorio: Meteor.user().profile.idConsultorio});
+	}
+	
 });
 
 Meteor.publish('turnos', function(){
@@ -37,7 +41,11 @@ Meteor.publish('consultorios', function(){
 });
 
 Meteor.publish('operadores', function(){
-	return Operadores.find({idConsultorio: Meteor.user().profile.idConsultorio});
+	if (Roles.userIsInRole(Meteor.user(), ['adminconsultorio'])) {
+			return Operadores.find({owner: this.userId});
+		} else{
+		return Operadores.find({idConsultorio: Meteor.user().profile.idConsultorio});
+	}
 });
 
 Meteor.publish('historias', function(){

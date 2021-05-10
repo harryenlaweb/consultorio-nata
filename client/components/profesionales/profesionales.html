@@ -14,10 +14,10 @@
 			  		<h3>Editar Profesional</h3>
 			  	</div>					  	
 			  	<div class="panel-body">
-			  			<div class="checkbox">
+			  			<!--<div class="checkbox">
 						    <label>
 						    <input type="checkbox" id="combos" value={{profesionalEditar.combos}}>¿Utiliza combos de especialidades?</label>
-						</div>
+						</div>-->
 					  	<div class="form-group">
 						  <label for="usr">Nombre y Apellido</label>
 						  <input type="text" class="form-control" id="nombreApellido" value={{profesionalEditar.nombreApellido}}>
@@ -42,10 +42,10 @@
 						  <label for="usr">Fecha de Nacimiento</label>
 						  <input type="datetimepicker2" class="form-control" id="fechaNacimiento" value={{formatDate2 profesionalEditar.fechaNacimiento}}>
 						</div>
-						<div class="form-group">
+						<!--<div class="form-group">
 						  <label for="usr">¿El profesional es Hombre o Mujer?</label>
 						  <input type="text" class="form-control" id="sexo" value={{profesionalEditar.sexo}}>
-						</div>
+						</div>-->
 						<div class="form-group">
 						  <label for="usr">Descripcion del profesional</label>
 						  <textarea class="form-control" rows="5" id="descripcion" value={{profesionalEditar.descripcion}}></textarea>
@@ -135,14 +135,14 @@
 					      </tr>
 					    </thead>				
 					    <tbody>
-					      <tr>
+					      <!--<tr>
 					      	<td><strong><p>Usa combos de especialidades</p></strong></td>
 					      	{{#if profesionalInfo.combos }}
 					      		<td>SI</td>
 					      	{{else}}
 					      		<td>NO</td>
 					      	{{/if}}
-					      </tr>
+					      </tr>-->
 					      <tr>
 					      	<td><strong><p>Nombre</p></strong></td>
 					      	<td>{{profesionalInfo.nombreApellido}}</td>

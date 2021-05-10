@@ -97,16 +97,17 @@ Template.tratamientos.events({
       	const target = event.target;
       	var tratamiento = Template.instance().selTratamientoEditar.get();
 
-      	if (target.sobreturno.value){var ingresoSobreturno = target.sobreturno.checked};            
+      	
+      	//if (target.sobreturno.value){var ingresoSobreturno = target.sobreturno.checked};            
 
       	Tratamientos.update({_id:tratamiento._id},{$set: {
 	        nombre : target.nombre.value,
 	        duracion: target.duracion.value,
 	        importe: target.importe.value,	        
-	        frecuencia: target.frecuencia.value,	        
-	        sexo: target.sexo.value,
+	        //frecuencia: target.frecuencia.value,	        
+	        //sexo: target.sexo.value,
 	        descripcion: target.descripcion.value,        
-	        sobreturno : ingresoSobreturno,
+	        //sobreturno : ingresoSobreturno,
 	    }});
 
 	    var tratamientoSeleccionado = Tratamientos.findOne({_id:tratamiento._id});	    
@@ -129,10 +130,10 @@ Template.tratamientos.events({
 									nombre:tratamientoSeleccionado.nombre,
 									duracion:tratamientoSeleccionado.duracion,
 									importe: tratamientoSeleccionado.importe,
-									sexo:tratamientoSeleccionado.sexo,
-									frecuencia:tratamientoSeleccionado.frecuencia,
+									//sexo:tratamientoSeleccionado.sexo,
+									//frecuencia:tratamientoSeleccionado.frecuencia,
 									descripcion:tratamientoSeleccionado.descripcion,
-									sobreturno:tratamientoSeleccionado.sobreturno,
+									//sobreturno:tratamientoSeleccionado.sobreturno,
 									owner:tratamientoSeleccionado.owner,
 						};						
 
