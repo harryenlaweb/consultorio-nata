@@ -1,14 +1,16 @@
 import { Mongo } from 'meteor/mongo';
 import { Meteor } from 'meteor/meteor';
-import { Tratamientos } from '../../../lib/collections/tratamientos';
-import { Profesionales } from '../../../lib/collections/profesionales';
-import { Pacientes } from '../../../lib/collections/pacientes';
-import { Turnos } from '../../../lib/collections/turnos';
-import { Obras } from '../../../lib/collections/obras';
+import { Tratamientos } from '/lib/collections/tratamientos';
+import { Profesionales } from '/lib/collections/profesionales';
+import { Pacientes } from '/lib/collections/pacientes';
+import { Turnos } from '/lib/collections/turnos';
+import { Obras } from '/lib/collections/obras';
+import { Images } from '/lib/collections/images';
 import { Router } from 'meteor/iron:router';
 import SimpleSchema from 'simpl-schema';
 import { check } from 'meteor/check';
-import { ReactiveVar } from 'meteor/reactive-var'
+import { ReactiveVar } from 'meteor/reactive-var';
+import './calendar.html';
 
 Template.calendar.onCreated(function(){   
   this.selProfesionales = new ReactiveVar(null);
@@ -28,8 +30,7 @@ Template.calendar.onCreated(function(){
   this.selTurnoEliminar = new ReactiveVar(null);
   this.selMyMenuItems = new ReactiveVar([]);  
   this.selActualizarVista = new ReactiveVar(true);
-
-
+  this.currentUpload = new ReactiveVar(false);
 });
 
 //OBTIENE LOS MINUTOS ENTRE DOS FECHAS TIPO DATE
@@ -90,6 +91,14 @@ Template.calendar.helpers({
     return {
       placeholder: 'Buscar ...',
     };
+  },
+
+//-------------------IMAGES------------------
+  currentUpload: function () {
+    return Template.instance().currentUpload.get();
+  },
+  uploadedFiles: function () {   
+    return Images.find();
   },
 
 //-------------------INFORMACION PARA LA VENTANA MODAL DE LOS TURNOS ------------------------------
@@ -362,7 +371,7 @@ Template.calendar.helpers({
 });
 
 
-Template.calendar.events({
+Template.calendar.events({ 
   //----------------SELECT PROFESIONAL ---------------------
   'change #profesionales1': function(event, instance) {
     var profesionalesId = $(event.target).val();    
@@ -422,18 +431,57 @@ Template.calendar.events({
   },
 
   //************************************** FORMULARIO MODAL PARA CARGAR HISTORIA CLINICA **********************************
-  'submit #formHistoriaClinica':function(event) {              
+  'submit #formHistoriaClinica':function(event,template) {       
+
       event.preventDefault();     
-      const target = event.target;
+      const target = event.target;      
+
+      var idImage,name,type, extension;
+      var linkImage = null;
+
+      if (target.fileInput.files && target.fileInput.files[0]) {      
+          var file = target.fileInput.files[0];
+          if (file) {
+            var uploadInstance = Images.insert({
+              file: file,
+              chunkSize: 'dynamic'
+            }, false);
+
+            uploadInstance.on('start', function() {              
+              template.currentUpload.set(this);
+            });
+
+            uploadInstance.on('end', function(error, fileObj) {   
+            if (error) {
+                window.alert('Error during upload: ' + error.reason);
+              } else {
+                window.alert('File "' + fileObj.name + '" successfully uploaded');
+              }           
+              template.currentUpload.set(false);
+            });
+            uploadInstance.start();            
+
+            idImage = uploadInstance.config.fileId;  
+            name = uploadInstance.file.name;
+            type = uploadInstance.file.type;
+            extension = uploadInstance.file.extension;
+
+            linkImage = "http://localhost:3000/cdn/storage/Images/".concat(idImage,"/original/",idImage,".",extension);
+          }
+        }                    
       
+
       var turno = Template.instance().selModalHistoriaClinica.get();      
       idPaciente = turno.paciente._id;
       var ingresoComentario = target.comentario.value;       
       
-      let hist= { comentario: ingresoComentario,            
+      let hist= { comentario: ingresoComentario,
+                  idImage: idImage,
+                  link: linkImage,
+                  name: name,
       };   
       
-      console.log(hist);
+      
       Pacientes.update({_id:idPaciente},{$push:{mishistorias:hist}});     
 
       $('#modalHistoriaClinica2').modal('hide'); //CIERRO LA VENTANA MODAL
@@ -444,6 +492,7 @@ Template.calendar.events({
   //*******************************MUESTRO LOS DATOS DEL PACIENTE DEL TURNO********************************
   'click #modalInfoPaciente': function(event, template){       
       var turnoId = this._id;
+      console.log(turnoId);
       var turno = Turnos.findOne({"_id":turnoId});            
       Template.instance().selModalInfoPaciente.set(turno.paciente);  
       $('#modalInfoPaciente').modal('show');

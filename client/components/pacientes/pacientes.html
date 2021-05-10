@@ -222,14 +222,15 @@
 
 	<div class="panel panel-success">
 	  	<div class="panel-heading"><strong><h3>Lista de pacientes</h3></strong></div>
-	  	<div class="panel-body">		    
-		    <div class="col-lg-12">
-			    <a class="btn btn-success btn-md" href="{{ pathFor 'paciente_form'}}">
-					Añadir nuevo paciente
-				</a>					
-		      		{{> EasySearch.Input index=pacientes attributes=searchAttributes }}
-		      		<hr />
-	      	</div>			
+	  	<div class="panel-body">
+	  		<div class="col-lg-12">
+			    {{#if isInRole 'operador'}}	
+					<a class="btn btn-success btn-md" href="{{ pathFor 'paciente_form'}}">Añadir nuevo paciente</a>
+				{{/if}}			
+
+		      	{{> EasySearch.Input index=pacientes attributes=searchAttributes }}
+		      	<hr />
+	      	</div>		      		    
 			<div class="col-lg-12">
 				<table class="table table-hover">
 					<thead>
@@ -251,10 +252,16 @@
 				        <td>
 				        	<span class="right">
 				        	<!--<a href="{{ pathFor 'paciente_obra' _id=_id}}" class="btn btn-success btn-xs">Obras</a>				-->
-				        	<a href="{{ pathFor 'historias' _id=_id}}" class="btn btn-success btn-xs">Historias</a>				        	
+				        	{{#if isInRole 'profesional'}}	
+								<a href="{{ pathFor 'historias' _id=_id}}" class="btn btn-success btn-xs">Historias</a>				        	
+							{{/if}}			
+
 							<a href="#"	class="modalPacienteInfo btn btn-info btn-xs">Detalle</a>
-							<a href="#" class="modalPacienteEditar btn btn-warning btn-xs">Editar</a>
-							<a href="#" class="modalRemovePaciente btn btn-danger btn-xs">Eliminar</a>								
+							{{#if isInRole 'operador'}}	
+								<a href="#" class="modalPacienteEditar btn btn-warning btn-xs">Editar</a>
+								<a href="#" class="modalRemovePaciente btn btn-danger btn-xs">Eliminar</a>								
+							{{/if}}			
+
 							</span>
 						</td>
 				      </tr>
@@ -274,5 +281,4 @@
 			</div>			
 		</div>		
 	</div>
-
 </template>

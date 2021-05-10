@@ -9,6 +9,7 @@
     "bcrypt": "^1.0.3",
     "meteor-node-stubs": "~0.2.4",
     "mongodb": "~3.2.12",
+    "prop-types": "^15.7.2",
     "simpl-schema": "^0.3.2"
   }
 }

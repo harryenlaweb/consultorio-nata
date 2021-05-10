@@ -57,21 +57,25 @@ Template.profesionalForm.events({
 			console.log("TAMBIEN ENTRO ACA!!!");
 		};
 		if (target.sexo.value){var ingresoSexo = target.sexo.value};  
-		if (target.descripcion.value){var ingresoDescripcion = target.descripcion.value};         
+		if (target.descripcion.value){var ingresoDescripcion = target.descripcion.value}; 
+
+		var usuarioLogueado = Meteor.userId(); // EL ID DEL CONSULTORIO ES EL ID DEL ADMINISTRADOR LOGUEADO
 	    
 	    var usuario= new Object();            
 		usuario.email=ingresoEmail;   
 		usuario.pass=ingresoDni;   //SETEA LA CONTRASEÑA CON EL EMAIL
 		usuario.name=ingresoNombre;
-		usuario.idConsultorio=Meteor.userId();
+		usuario.idConsultorio=usuarioLogueado;
 		usuario.cargo_roles="profesional";  
 		
 		Meteor.call("new_user_consultorio", usuario, function(error, result){  //llamo al metedo que crea el usuario del lado servidor      
 	       if(error){
 	         alert(error.message);         
 	       }
-	       if(result){         
+	       if(result){  	       	
 	         Profesionales.insert({
+	         	idUsuario: result,
+	         	idConsultorio: usuarioLogueado,
 				combos : ingresoCombos,
 		        nombreApellido : ingresoNombre,
 		        dni : ingresoDni,

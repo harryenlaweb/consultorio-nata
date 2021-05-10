@@ -7,45 +7,43 @@ import { Obras } from '../lib/collections/obras';
 import { Consultorios } from '../lib/collections/consultorios';
 import { Operadores } from '../lib/collections/operadores';
 import { Historias } from '../lib/collections/historias';
+import { Images } from '../lib/collections/images';
 
-
-Meteor.publish('tratamientos', function tratamientosPublication()
-{
+Meteor.publish('tratamientos', function(){
 	return Tratamientos.find({idConsultorio: Meteor.user().profile.idConsultorio});
 });
 
-Meteor.publish('profesionales', function profesionalesPublication()
-{	
+Meteor.publish('profesionales', function(){	
 	return Profesionales.find({idConsultorio: Meteor.user().profile.idConsultorio});
+	//return Profesionales.find({});
 });
 
-Meteor.publish('turnos', function projectsPublication()
-{
+Meteor.publish('turnos', function(){
+	//return Turnos.find({created:{$gte: new Date((new Date().getTime() - (360 * 24 * 60 * 60 * 1000)))}});
 	return Turnos.find({idConsultorio: Meteor.user().profile.idConsultorio, created:{$gte: new Date((new Date().getTime() - (360 * 24 * 60 * 60 * 1000)))}});
 	//return Turnos.find({owner: this.userId});
 });
 
-Meteor.publish('pacientes', function projectsPublication()
-{
+Meteor.publish('pacientes', function(){
 	return Pacientes.find({idConsultorio: Meteor.user().profile.idConsultorio});
 });
 
-Meteor.publish('obras', function projectsPublication()
-{
+Meteor.publish('obras', function(){
 	return Obras.find({idConsultorio: Meteor.user().profile.idConsultorio});
 });
 
-Meteor.publish('consultorios', function projectsPublication()
-{
+Meteor.publish('consultorios', function(){
 	return Consultorios.find({idConsultorio: Meteor.user().profile.idConsultorio});
 });
 
-Meteor.publish('operadores', function projectsPublication()
-{
+Meteor.publish('operadores', function(){
 	return Operadores.find({idConsultorio: Meteor.user().profile.idConsultorio});
 });
 
-Meteor.publish('historias', function projectsPublication()
-{
+Meteor.publish('historias', function(){
 	return Historias.find({idConsultorio: Meteor.user().profile.idConsultorio});
+});
+
+Meteor.publish('files.images.all', function () {
+  	return Images.find().cursor;
 });

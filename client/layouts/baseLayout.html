@@ -10,14 +10,14 @@
 						<li><a href="{{ pathFor 'operadores'}}">Operadores</a></li>						
 					{{/if}}					
 					{{#if isInRole 'operador'}}	
-						<li><a href="{{ pathFor 'calendar'}}"><strong>Turnos</strong></a></li>						
+						<li><a href="{{ pathFor 'calendaroperador'}}"><strong>Turnos</strong></a></li>						
 						<li><a href="{{ pathFor 'profesionales'}}">Profesionales</a></li>
 						<li><a href="{{ pathFor 'tratamientos'}}">Especialidades</a></li>										
 						<li><a href="{{ pathFor 'pacientes'}}">Pacientes</a></li>
 						<li><a href="{{ pathFor 'obras'}}">Obras</a></li>						
 					{{/if}}	
 					{{#if isInRole 'profesional'}}	
-						<li><a href="{{ pathFor 'calendar'}}"><strong>Turnos</strong></a></li>												
+						<li><a href="{{ pathFor 'calendarprofesional'}}"><strong>Turnos</strong></a></li>												
 						<li><a href="{{ pathFor 'pacientes'}}">Pacientes</a></li>						
 					{{/if}}			
 				</ul>

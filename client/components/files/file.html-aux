@@ -1,0 +1,9 @@
+<template name='file'>
+  {{#with file.with}}
+    <a href="{{link}}?download=true" download="{{name}}" target="_parent" type="{{type}}">
+      {{name}}
+    </a>
+  {{else}}
+    loading...
+  {{/with}}
+</template>

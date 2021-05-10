@@ -12,7 +12,8 @@ Template.pacientes.onCreated(function(){
   this.selPacienteEliminar = new ReactiveVar(null);
   this.selPacienteInfo = new ReactiveVar(null);
   this.selPacienteEditar = new ReactiveVar(null);
-  this.selObra2 = new ReactiveVar(null);
+  this.selObra2 = new ReactiveVar(null);  
+
 });
 
 Template.pacientes.helpers({
@@ -42,11 +43,12 @@ Template.pacientes.helpers({
 
     obras1: function() {     
       return Obras.find().fetch().map(function(object){ return {id: object._id, value: object.nombre}; });    
-    },
+    },    
 });
 
 
-Template.pacientes.events({
+Template.pacientes.events({ 
+
 	'click .remove': function(event, template){		
 		Meteor.call('pacientes.remove',this._id);
 	},
