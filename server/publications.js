@@ -9,6 +9,7 @@ import { Operadores } from '../lib/collections/operadores';
 import { Historias } from '../lib/collections/historias';
 import { Images } from '../lib/collections/images';
 import { Cajas } from '../lib/collections/cajas';
+import { CajasAdmin } from '../lib/collections/cajasAdmin';
 
 Meteor.publish('tratamientos', function(){
 	return Tratamientos.find({idConsultorio: Meteor.user().profile.idConsultorio});
@@ -63,4 +64,10 @@ Meteor.publish('cajas', function(){
 	} else{
 	return Cajas.find({owner: this.userId});
 	}	
+});
+
+Meteor.publish('cajasAdmin', function(){	
+	//if (Roles.userIsInRole(Meteor.user(), ['adminconsultorio'])) {
+		return CajasAdmin.find({});
+	//}
 });

@@ -60,8 +60,8 @@ Template.cajas.events({
         var fecha = new Date();fecha.setHours(0,0,0,0);
         var total = null;
             
-        if (target.ingreso.value){ingreso = target.ingreso.value};
-        if (target.egreso.value){egreso = target.egreso.value};
+        if (target.ingreso.value){ingreso = Number(target.ingreso.value)};
+        if (target.egreso.value){egreso = Number(target.egreso.value)};
         if (target.notas.value){notas = target.notas.value};
 
         if (ingreso != null && egreso != null){
@@ -75,71 +75,85 @@ Template.cajas.events({
               notas: notas,
               fecha: fecha,
               idOperador:operador._id,
+              nombreOperador: operador.nombreApellido,
         };  
         
         
 
         var noHayCaja = true;
         //recorro las cajas, porque no puede ingresar dos cajas un mismo dia
-        var cursor = Operadores.findOne({_id:operador._id},{'miscajas': 1});      
-        arr = [];       
-       
+        var cursor = Operadores.findOne({_id:operador._id},{'miscajas': 1});
+        console.log(cursor.miscajas);
 
-        let arreglo = cursor.miscajas;
-        let arrayLength = arreglo.length;
-        for (var i = 0; i < arrayLength; i++) {
-            var elemento = arreglo[i];
-            var fechaElemento = new Date(elemento.fecha);
-            //console.log("FECHA:",i,"-->",fechaElemento);
-            //console.log("-------------",fecha);
+        if (cursor.miscajas != undefined) {
+          arr = [];       
 
-            //var conversion = fechaElemento.getTime(); 
-            //console.log("CONVERSION:", conversion);
-            
-            /*if (fechaElemento.getTime() == fecha.getTime()){            
-                noHayCaja = false;
-                //console.log("***** YA SE INGRESO UN CAJA EN ESTA FECHA!!!*******");
-            };*/
-        };
-        
-        if (noHayCaja) {
-          Operadores.update({_id:operador._id},{$push:{miscajas:ca}});    
-          //Operadores.update({_id:operador._id},{$push:{miscajas:{ $each: [ ], $sort: -1 }}});    
-
-          //AHORA TENGO QUE INGRESAR LA CAJA EN cajasAdmin.js, las cajas del administrador
-          // no deberia haber una caja de ese operador en esa fecha, es caso se da en actualizar
-
-            var cajasAdmin = CajasAdmin.findOne({fecha: fecha});
-            if (cajasAdmin) { //ya hay una caja ingresada en esa fecha, entonces tengo que agregar esta caja a la fecha              
-              console.log("******* 114 *******");
-              CajasAdmin.update({_id:cajasAdmin._id},{$push:{lascajas:ca}});                  
-              //tengo que actualizar los montos de la caja de esa fecha
-              var ingresoAdmin = cajasAdmin.ingreso;
-              var egresoAdmin = cajasAdmin.egreso;
+          let arreglo = cursor.miscajas;
+          let arrayLength = arreglo.length;
+          for (var i = 0; i < arrayLength; i++) {
+              var elemento = arreglo[i];
+              var fechaElemento = new Date(elemento.fecha);           
               
-              ingresoAdmin = ingresoAdmin + ingreso;
-              egresoAdmin = egresoAdmin + egreso;
-              var totalAdmim = ingresoAdmin - egresoAdmin;
+              if (fechaElemento.getTime() == fecha.getTime()){ 
+                  noHayCaja = false;
+              
+              };
+          };
+        }
+        
 
-              CajasAdmin.update({_id:cajasAdmin._id},{$set: {
-                    ingreso: ingresoAdmin,
-                    egreso: egresoAdmin,
-                    total: totalAdmim,        
-              }});
+        if (noHayCaja) {
+          Operadores.update({_id:operador._id},{$push:{miscajas:ca}});           
+          
+            var cajasA = CajasAdmin.findOne( { fecha: { $eq: fecha } } );         
 
-              console.log("******* 130 *******");
+            
+            if (cajasA) { 
+
+              var noExisteCaja = true;              
+
+              arr = [];                        
+              let arreglo = cajasA.lascajas;
+              let arrayLength = arreglo.length;
+              var elementoEncontrado;
+              for (var i = 0; i < arrayLength; i++) {
+                  var elemento = arreglo[i];
+                  if (elemento.idOperador === operador._id){                    
+                    console.log("CHAMACO YA EXISTE UNA CAJA CON EL MISMO OPERADO!!!!");
+                    elementoEncontrado = elemento;
+                    noExisteCaja = false;
+                  }
+                  
+              };
+
+              if (noExisteCaja){
+                    //ingreso la caja del operador
+                    CajasAdmin.update({_id:cajasA._id},{$push:{lascajas:ca}});                  
+                    
+                    //tengo que actualizar los montos de la caja de esa fecha
+                    var ingresoAdmin = cajasA.ingreso;
+                    var egresoAdmin = cajasA.egreso;
+                    
+                    ingresoAdmin = ingresoAdmin + ingreso;
+                    egresoAdmin = egresoAdmin + egreso;
+                    var totalAdmim = ingresoAdmin - egresoAdmin;
+
+                    CajasAdmin.update({_id:cajasA._id},{$set: {
+                          ingreso: ingresoAdmin,
+                          egreso: egresoAdmin,
+                          total: totalAdmim,        
+                    }});           
+
+              } 
 
             } else{ //tengo que insertar un nuevo documento
                   CajasAdmin.insert({
                         fecha: fecha,
                         ingreso: ingreso,
                         egreso: egreso,
-                        total: total,                        
-                  });
-                  var cajasAdmin = CajasAdmin.findOne({fecha: fecha});
-                  CajasAdmin.update({_id:cajasAdmin._id},{$push:{lascajas:ca}});    
-
-                  console.log("******* 141 *******");
+                        total: total, 
+                        lascajas:[ca]                       
+                  });                  
             }
 
         } else {
@@ -193,8 +207,8 @@ Template.cajas.events({
         var total = null;
         var fecha = caja.fecha;
             
-        if (target.ingreso.value){ingreso = target.ingreso.value};
-        if (target.egreso.value){egreso = target.egreso.value};
+        if (target.ingreso.value){ingreso = Number(target.ingreso.value)};
+        if (target.egreso.value){egreso = Number(target.egreso.value)};
         if (target.notas.value){notas = target.notas.value};
 
         if (ingreso != null && egreso != null){
@@ -207,13 +221,55 @@ Template.cajas.events({
               total: total,
               notas: notas,
               fecha: fecha,    
-              idOperador: operador._id,          
+              idOperador: operador._id, 
+              nombreOperador: operador.nombreApellido,         
         };  
 
         // ELIMINO LA CAJA      
         Meteor.call('operadores.removeCaja',operador._id, caja._id); 
         
-        Operadores.update({_id:operador._id},{$push:{miscajas:ca}});   
+        Operadores.update({_id:operador._id},{$push:{miscajas:ca}});
+
+
+
+
+
+                // TENGO QUE ELIMINAR E INSERTAR DE casjasAdmin  
+
+                var cajasA = CajasAdmin.findOne( { fecha: { $eq: fecha } } );              
+
+                arr = [];                        
+                let arreglo = cajasA.lascajas;
+                let arrayLength = arreglo.length;
+                var elementoEncontrado;
+                for (var i = 0; i < arrayLength; i++) {
+                    var elemento = arreglo[i];
+                    if (elemento.idOperador === operador._id){                    
+                      console.log("CHAMACO YA EXISTE UNA CAJA CON EL MISMO OPERADO!!!!");
+                      elementoEncontrado = elemento;
+                      noExisteCaja = false;
+                    }
+                    
+                };
+
+                Meteor.call('cajasAdmin.removeCajaAdmin',cajasA._id, elementoEncontrado._id); 
+                CajasAdmin.update({_id:cajasA._id},{$push:{lascajas:ca}});  
+
+                var ingresoAdmin = cajasA.ingreso;                
+                var egresoAdmin = cajasA.egreso; 
+                
+                ingresoAdmin = ingresoAdmin + ingreso - elementoEncontrado.ingreso;                
+                egresoAdmin = egresoAdmin +egreso - elementoEncontrado.egreso;
+                
+                var totalAdmim = ingresoAdmin - egresoAdmin;
+                
+                CajasAdmin.update({_id:cajasA._id},{$set: {                          
+                      egreso: egresoAdmin,
+                      ingreso: ingresoAdmin,
+                      total: totalAdmim,        
+                }}); 
+
+
         
         $('#modalEditarCaja2').modal('hide'); //CIERRO LA VENTANA MODAL
     },
