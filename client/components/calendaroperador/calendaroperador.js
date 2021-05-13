@@ -2,6 +2,7 @@ import { Mongo } from 'meteor/mongo';
 import { Meteor } from 'meteor/meteor';
 import { Tratamientos } from '/lib/collections/tratamientos';
 import { Profesionales } from '/lib/collections/profesionales';
+import { Operadores } from '/lib/collections/operadores';
 import { Pacientes } from '/lib/collections/pacientes';
 import { Turnos } from '/lib/collections/turnos';
 import { Obras } from '/lib/collections/obras';
@@ -356,8 +357,7 @@ Template.calendaroperador.helpers({
     
     
     //CONVIERTO LAS FECHAS A FORMATO ISO   
-    var iso1 = new Date(diaSeleccionado);
-    console.log("ISO 1 DIA SELECCIONANDO", iso1);
+    var iso1 = new Date(diaSeleccionado);    
     var iso2 = new Date(diaSeleccionado);
     var diaiso2 = iso2.getDate()+1; //le sumo un dia a la fecha para buscar en dos rangos de fechas HOY<X<MAÑANA
     iso2.setDate(diaiso2);
@@ -762,6 +762,9 @@ Template.calendaroperador.events({
   //************************************** FORMULARIO MODAL PARA RESERVAR UN TURNO **********************************
   'submit #formTurno':function(event) {
 
+      var idU = Meteor.userId();
+      var operador = Operadores.findOne({"idUsuario": idU});      
+
       var apertura = 7;
       var cierre = 22;
 
@@ -899,33 +902,33 @@ Template.calendaroperador.events({
             if ((horaInicio === apertura) && (minutosInicio === 0)){             
               
               var difTurno = diferenciaMinutos(iso1, iso2);
-              Turnos.insert({inicio:iso1, fin:iso2, duracion: difTurno, estado:"OCUPADO", importe:imp, tratamientos:trat, profesional:prof, paciente: pac ,motivo:mot}); //TURNO
+              Turnos.insert({inicio:iso1, fin:iso2, duracion: difTurno, estado:"OCUPADO", idOperador:operador._id, importe:imp, tratamientos:trat, profesional:prof, paciente: pac ,motivo:mot}); //TURNO
               
               var difDespues = diferenciaMinutos(iso2, fcierre);
-              Turnos.insert({inicio:iso2, fin:fcierre, duracion: difDespues, estado:"LIBRE", profesional:prof});//DESPUES
+              Turnos.insert({inicio:iso2, fin:fcierre, duracion: difDespues, estado:"LIBRE", idOperador:operador._id, profesional:prof});//DESPUES
             }
             //HORARIO DEL MEDIO apertura<HORARIO<cierre
             else{
               horaF = Number(horaFin); //convierto la hora de string a number            
               if (horaF < cierre){  
                 var difAntes = diferenciaMinutos(fapertura, iso1);              
-                Turnos.insert({inicio:fapertura, fin:iso1, duracion: difAntes, estado:"LIBRE", profesional:prof});//ANTES 
+                Turnos.insert({inicio:fapertura, fin:iso1, duracion: difAntes, estado:"LIBRE", idOperador:operador._id, profesional:prof});//ANTES 
                   
                 var difTurno = diferenciaMinutos(iso1, iso2);              
-                Turnos.insert({inicio:iso1, fin:iso2, duracion: difTurno, estado:"OCUPADO", importe:imp,tratamientos:trat, profesional:prof, paciente: pac ,motivo:mot}); //TURNO
+                Turnos.insert({inicio:iso1, fin:iso2, duracion: difTurno, estado:"OCUPADO", idOperador:operador._id, importe:imp,tratamientos:trat, profesional:prof, paciente: pac ,motivo:mot}); //TURNO
 
                 
                 var difDespues = diferenciaMinutos(iso2, fcierre);              
-                Turnos.insert({inicio:iso2, fin:fcierre, duracion: difDespues, estado:"LIBRE", profesional:prof});//DESPUES              
+                Turnos.insert({inicio:iso2, fin:fcierre, duracion: difDespues, estado:"LIBRE", idOperador:operador._id, idOperador:operador._id, profesional:prof});//DESPUES              
               }
               //ES EL ULTIMO HORARIO
               else{                
                   
                 var difAntes = diferenciaMinutos(fapertura, fin);
-                Turnos.insert({inicio:fapertura, fin:iso1, duracion: difAntes, estado:"LIBRE", profesional:prof});//ANTES
+                Turnos.insert({inicio:fapertura, fin:iso1, duracion: difAntes, estado:"LIBRE", idOperador:operador._id, profesional:prof});//ANTES
 
                 var difTurno = diferenciaMinutos(iso1, iso2);
-                Turnos.insert({inicio:iso1, fin:iso2, duracion: difTurno, estado:"OCUPADO",importe:imp, tratamientos:trat, profesional:prof, paciente: pac ,motivo:mot}); //TURNO            
+                Turnos.insert({inicio:iso1, fin:iso2, duracion: difTurno, estado:"OCUPADO", idOperador:operador._id,importe:imp, tratamientos:trat, profesional:prof, paciente: pac ,motivo:mot}); //TURNO            
               }
             }
             $('#modalIngresoTurno').modal('hide');          
@@ -963,16 +966,16 @@ Template.calendaroperador.events({
                 if ((base.getTime() === iso1.getTime()) && (tope.getTime() === iso2.getTime())){
                     
                   var difTurno = diferenciaMinutos(iso1, iso2);
-                  Turnos.insert({inicio:iso1, fin:iso2, duracion: difTurno, estado:"OCUPADO",importe:imp, tratamientos:trat, profesional:prof, paciente: pac ,motivo:mot}); //TURNO 
+                  Turnos.insert({inicio:iso1, fin:iso2, duracion: difTurno, estado:"OCUPADO", idOperador:operador._id,importe:imp, tratamientos:trat, profesional:prof, paciente: pac ,motivo:mot}); //TURNO 
                 }
                 else{
                     
                   var difTurno = diferenciaMinutos(iso1, iso2);
-                  Turnos.insert({inicio:iso1, fin:iso2, duracion: difTurno, estado:"OCUPADO",importe:imp, tratamientos:trat, profesional:prof, paciente: pac ,motivo:mot}); //TURNO
+                  Turnos.insert({inicio:iso1, fin:iso2, duracion: difTurno, estado:"OCUPADO", idOperador:operador._id,importe:imp, tratamientos:trat, profesional:prof, paciente: pac ,motivo:mot}); //TURNO
                    
                   if ( iso2.getTime() !== tope.getTime() ){
                     var difDespues = diferenciaMinutos(iso2, tope);
-                    Turnos.insert({inicio:iso2, fin:tope, duracion: difDespues, estado:"LIBRE", profesional:prof});//DESPUES                              
+                    Turnos.insert({inicio:iso2, fin:tope, duracion: difDespues, estado:"LIBRE", idOperador:operador._id, profesional:prof});//DESPUES                              
                   }
                 }                
               }
@@ -997,21 +1000,21 @@ Template.calendaroperador.events({
                   if ((base.getTime() === iso1.getTime()) && (tope.getTime() === iso2.getTime())){
                       
                     var difTurno = diferenciaMinutos(iso1, iso2);
-                    Turnos.insert({inicio:iso1, fin:iso2, duracion: difTurno, estado:"OCUPADO", importe:imp,tratamientos:trat, profesional:prof, paciente: pac ,motivo:mot}); //TURNO 
+                    Turnos.insert({inicio:iso1, fin:iso2, duracion: difTurno, estado:"OCUPADO", idOperador:operador._id, importe:imp,tratamientos:trat, profesional:prof, paciente: pac ,motivo:mot}); //TURNO 
                   }
                   else{                    
                     
                     if ( base.getTime() !== iso1.getTime() ){
                       var difAntes = diferenciaMinutos(base, iso1);
-                      Turnos.insert({inicio:base, fin:iso1, duracion: difAntes, estado:"LIBRE", profesional:prof});//ANTES 
+                      Turnos.insert({inicio:base, fin:iso1, duracion: difAntes, estado:"LIBRE", idOperador:operador._id, profesional:prof});//ANTES 
                     } 
                       
                     var difTurno = diferenciaMinutos(iso1, iso2);
-                    Turnos.insert({inicio:iso1, fin:iso2, duracion: difTurno, estado:"OCUPADO", importe:imp,tratamientos:trat, profesional:prof, paciente: pac ,motivo:mot}); //TURNO                    
+                    Turnos.insert({inicio:iso1, fin:iso2, duracion: difTurno, estado:"OCUPADO", idOperador:operador._id, idOperador:operador._id, importe:imp,tratamientos:trat, profesional:prof, paciente: pac ,motivo:mot}); //TURNO                    
                     
                     if ( iso2.getTime() !== tope.getTime() && (iso2 <= fcierre)){
                       var difDespues = diferenciaMinutos(iso2, tope);
-                      Turnos.insert({inicio:iso2, fin:tope, duracion: difDespues, estado:"LIBRE", profesional:prof});//DESPUES
+                      Turnos.insert({inicio:iso2, fin:tope, duracion: difDespues, estado:"LIBRE", idOperador:operador._id, profesional:prof});//DESPUES
                     }
                   }                
                 }              
@@ -1024,21 +1027,21 @@ Template.calendaroperador.events({
                   if ((base.getTime() === iso1.getTime()) && (tope.getTime() === iso2.getTime())){
                       
                     var difTurno = diferenciaMinutos(iso1, iso2);
-                    Turnos.insert({inicio:iso1, fin:iso2, duracion: difTurno, estado:"OCUPADO",importe:imp, tratamientos:trat, profesional:prof, paciente: pac ,motivo:mot}); //TURNO 
+                    Turnos.insert({inicio:iso1, fin:iso2, duracion: difTurno, estado:"OCUPADO", idOperador:operador._id,importe:imp, tratamientos:trat, profesional:prof, paciente: pac ,motivo:mot}); //TURNO 
                   }
                   else{                    
 
                     if ( base.getTime() !== iso1.getTime() ){                        
                       var difAntes = diferenciaMinutos(base, iso1);
-                      Turnos.insert({inicio:base, fin:iso1, duracion: difAntes, estado:"LIBRE", profesional:prof});//ANTES 
+                      Turnos.insert({inicio:base, fin:iso1, duracion: difAntes, estado:"LIBRE", idOperador:operador._id, profesional:prof});//ANTES 
                     }
                       
                     var difTurno = diferenciaMinutos(iso1, iso2);
-                    Turnos.insert({inicio:iso1, fin:iso2, duracion: difTurno, estado:"OCUPADO",importe:imp, tratamientos:trat, profesional:prof, paciente: pac ,motivo:mot}); //TURNO                  
+                    Turnos.insert({inicio:iso1, fin:iso2, duracion: difTurno, estado:"OCUPADO", idOperador:operador._id,importe:imp, tratamientos:trat, profesional:prof, paciente: pac ,motivo:mot}); //TURNO                  
                     
                     if ( (iso2.getTime() !== tope.getTime()) && (tope <= fcierre)){
                       var difDespues = diferenciaMinutos(iso2, tope);
-                      Turnos.insert({inicio:iso2, fin:tope, duracion: difDespues, estado:"LIBRE", profesional:prof});//DESPUES   
+                      Turnos.insert({inicio:iso2, fin:tope, duracion: difDespues, estado:"LIBRE", idOperador:operador._id, profesional:prof});//DESPUES   
                     }
                   }
                   

@@ -57,6 +57,6 @@ Meteor.publish('files.images.all', function () {
   	return Images.find().cursor;
 });
 
-Meteor.publish('cajas', function(){
+/*Meteor.publish('cajas', function(){
 	return Cajas.find({owner: this.userId});
-});
+});*/

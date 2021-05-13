@@ -10,12 +10,12 @@ import SimpleSchema from 'simpl-schema';
 import { check } from 'meteor/check';
 import { ReactiveVar } from 'meteor/reactive-var';
 
-
 Template.cajas.onCreated(function(){  
   this.operador = new ReactiveVar(null);  
   this.selCajaRecuperada = new ReactiveVar(null); 
   this.selSumaTurnosAtendidos = new ReactiveVar(0);
 });
+
 
 Template.cajas.helpers({
 
@@ -37,6 +37,8 @@ Template.registerHelper('formatDate2', function(date) {
   return moment(date).format('DD-MM-YYYY');
 });
 
+
+
 Template.cajas.events({  
 
 //**********************INGRESAR CAJA ***************
@@ -50,7 +52,7 @@ Template.cajas.events({
         var ingreso = null;
         var egreso = null;
         var notas = null;
-        var fecha = new Date();
+        var fecha = new Date();fecha.setHours(0,0,0,0);
         var total = null;
             
         if (target.ingreso.value){ingreso = target.ingreso.value};
@@ -69,7 +71,36 @@ Template.cajas.events({
               fecha: fecha,
         };  
         
-        Operadores.update({_id:operador._id},{$push:{miscajas:ca}});   
+        
+
+        var noHayCaja = true;
+        //recorro las cajas, porque no puede ingresar dos cajas un mismo dia
+        var cursor = Operadores.findOne({_id:operador._id},{'miscajas': 1});      
+        arr = [];       
+       
+
+        let arreglo = cursor.miscajas;
+        let arrayLength = arreglo.length;
+        for (var i = 0; i < arrayLength; i++) {
+            var elemento = arreglo[i];
+            var fechaElemento = new Date(elemento.fecha);
+            //console.log("FECHA:",i,"-->",fechaElemento);
+            //console.log("-------------",fecha);
+
+            //var conversion = fechaElemento.getTime(); 
+            //console.log("CONVERSION:", conversion);
+            
+            if (fechaElemento.getTime() == fecha.getTime()){            
+                noHayCaja = false;
+                console.log("***** YA SE INGRESO UN CAJA EN ESTA FECHA!!!*******");
+            };           
+        };
+        
+        if (noHayCaja) {
+          Operadores.update({_id:operador._id},{$push:{miscajas:ca}});    
+        } else {
+          alert("YA INGRESO UNA CAJA EN EL DIA DE HOY");
+        }          
         
         $('#modalIngresarCaja2').modal('hide'); //CIERRO LA VENTANA MODAL
     },
@@ -82,19 +113,13 @@ Template.cajas.events({
         var iso2 = new Date();iso2.setHours(0,0,0,0);
         var diaiso2 = iso2.getDate()+1; //le sumo un dia a la fecha para buscar en dos rangos de fechas HOY<X<MAÑANA
         iso2.setDate(diaiso2);
-        //var turnos = Turnos.find({"owner":operador._id,"inicio" : {"$gte" : iso1, "$lt" : iso2}},{sort: {inicio: 1}});
-        var turnos = Turnos.find({"owner":operador.idUsuario, "estado": "OCUPADO", "inicio" : {"$gte" : iso1, "$lt" : iso2}},{sort: {inicio: 1}});
-        //console.log("OPERADOR:", operador.idUsuario);
-        //var turnos = Turnos.findOne({"owner":operador.idUsuario});
+        
+        var turnos = Turnos.find({"idOperador":operador._id, "estado": "ATENDIDO", "inicio" : {"$gte" : iso1, "$lt" : iso2}},{sort: {inicio: 1}});
+        
         var suma = 0;
         if (turnos && turnos.count() >0){
-          turnos.forEach(function(turno){
-            if (turno.estado ==="OCUPADO"){
-              var importe = turno.importe;
-              console.log(importe);
-              suma = suma + importe;
-            }
-            console.log(turno.estado);
+          turnos.forEach(function(turno){                         
+              suma = suma + turno.importe;                        
           });
         }; 
 
@@ -154,11 +179,15 @@ Template.cajas.events({
 Template.cajas.onRendered(function() {   
 
     //---------------------BORRO LOS DATOS DE LA VENTANAS MODALES-------------------  
-    /*$("#modalEditarHistoria2").on("hidden.bs.modal", function(){        
+    $("#modalIngresarCaja2").on("hidden.bs.modal", function(){        
         $(this).find("input,textarea,select").val('').end();
-    });   */
+    }); 
 
     $("#modalEditarCaja2").on("hidden.bs.modal", function(){        
         $(this).find().val('').end();
     });    
+    /*$("#modalIngresarCaja2").on("hidden.bs.modal", function(){        
+        $(this).find().val('').end();
+    });    */
+
 });
