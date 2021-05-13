@@ -1,11 +1,11 @@
 import { Pacientes } from '../../../lib/collections/pacientes';
 import { Router } from 'meteor/iron:router';
 import SimpleSchema from 'simpl-schema';
-import { Historias } from '../../../lib/collections/historias';
+import { Obras } from '../../../lib/collections/obras';
 // Required AutoForm setup
 SimpleSchema.extendOptions(['autoform']);
 
-Template.historiaForm.onCreated(function(){    
+Template.cajaForm.onCreated(function(){    
   this.selObra2 = new ReactiveVar(null);
 
 
@@ -13,7 +13,7 @@ Template.historiaForm.onCreated(function(){
 
 
 
-Template.historiaForm.helpers({
+Template.cajaForm.helpers({
 	formCollection() {
 		return Pacientes;
 	},
@@ -29,9 +29,9 @@ Template.historiaForm.helpers({
 	},
 })
 
-Template.historiaForm.onCreated(function()
+Template.cajaForm.onCreated(function()
 {
-	AutoForm.addHooks(['historiaForm'],{
+	AutoForm.addHooks(['cajaForm'],{
 		onSuccess: function(operation, result, template)
 		{
 			Router.go('/pacientes');
@@ -39,7 +39,7 @@ Template.historiaForm.onCreated(function()
 	});
 })
 
-Template.historiaForm.events({  
+Template.cajaForm.events({  
 
     'submit #formPaciente':function(event) {
 	    // Prevent default browser form submit
@@ -187,7 +187,7 @@ Template.historiaForm.events({
 });
 
 
-Template.historiaForm.onRendered(function() {
+Template.cajaForm.onRendered(function() {
 	//$('.fechaNacimiento').mask('dd/mm/aaaa');
 	$("#fechaNacimiento").inputmask("d-m-y");
 	$("#fechaIngreso").inputmask("d-m-y");

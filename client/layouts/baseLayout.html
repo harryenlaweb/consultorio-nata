@@ -15,6 +15,7 @@
 						<li><a href="{{ pathFor 'tratamientos'}}">Especialidades</a></li>										
 						<li><a href="{{ pathFor 'pacientes'}}">Pacientes</a></li>
 						<li><a href="{{ pathFor 'obras'}}">Obras</a></li>						
+						<li><a href="{{ pathFor 'cajas'}}">Cajas</a></li>						
 					{{/if}}	
 					{{#if isInRole 'profesional'}}	
 						<li><a href="{{ pathFor 'calendarprofesional'}}"><strong>Turnos</strong></a></li>												
@@ -25,7 +26,7 @@
 			      
 			      <li><a href="#">{{> loginButtons}}</a></li>
 			      <div class="navbar-header">
-				      <a href="{{ pathFor 'calendar'}}" class="navbar-brand">LOS CONSULTORIOS</a>
+				      <a href="{{ pathFor 'calendar'}}" class="navbar-brand">EL MAESTRO</a>
 				  </div>			      
 			      
 			    </ul>

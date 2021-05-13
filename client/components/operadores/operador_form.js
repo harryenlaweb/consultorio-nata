@@ -67,7 +67,8 @@ Template.operadorForm.events({
 	         alert(error.message);         
 	       }
 	       if(result){         
-	         Operadores.insert({				
+	         Operadores.insert({	
+	         	idUsuario: result,			
 		        nombreApellido : ingresoNombre,
 		        idConsultorio: usuarioLogueado,
 		        dni : ingresoDni,		        

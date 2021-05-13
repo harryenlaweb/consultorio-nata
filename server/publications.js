@@ -8,6 +8,7 @@ import { Consultorios } from '../lib/collections/consultorios';
 import { Operadores } from '../lib/collections/operadores';
 import { Historias } from '../lib/collections/historias';
 import { Images } from '../lib/collections/images';
+import { Cajas } from '../lib/collections/cajas';
 
 Meteor.publish('tratamientos', function(){
 	return Tratamientos.find({idConsultorio: Meteor.user().profile.idConsultorio});
@@ -54,4 +55,8 @@ Meteor.publish('historias', function(){
 
 Meteor.publish('files.images.all', function () {
   	return Images.find().cursor;
+});
+
+Meteor.publish('cajas', function(){
+	return Cajas.find({owner: this.userId});
 });

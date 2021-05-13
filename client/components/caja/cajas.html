@@ -1,0 +1,167 @@
+<template name="cajas">
+<!-- ******************MODAL AGREGAR CAJA ********************************-->
+<div class="modal" id="modalIngresarCaja2" role="dialog">
+  	<div class="modal-dialog modal-md">			    
+      	<!-- Modal content-->
+      	<div class="modal-content">
+	        <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal">&times;</button>
+	          <h2 class="modal-title">Ingresar Caja</h2>
+	        </div>			        
+		    <form class="form" id="formIngresarCaja">						    
+			    <div class="modal-body">
+			    	<div class="form-group">
+					  <h4>Suma de turnos atendidos <strong>${{sumaTurnosAtendidos}}</strong></h4>
+					</div>
+
+			    	<div class="form-group">
+					  <label for="ingreso">Ingreso</label>
+					  <input type="number" class="form-control" id="ingreso">
+					</div>
+					<div class="form-group">				  
+					  <label for="egreso">Egreso</label>
+					  <input type="number" class="form-control" id="egreso">
+					</div>																	
+					<div class="form-group">
+					  <label for="notas">Notas</label>
+					  <textarea class="form-control" rows="5" id="notas"></textarea>
+					</div>			  	
+				</div>
+				<div class="modal-footer">
+		        	<button type="submit" id="submit" class="btn btn-success">Guardar</button>        	
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>		        
+			    </div>							
+		    </form>			        
+      	</div>
+    </div>
+</div>
+<!-- ******************MODAL EDITAR CAJA ********************************-->
+<div class="modal" id="modalEditarCaja2" role="dialog">
+  	<div class="modal-dialog modal-md">			    
+      	<!-- Modal content-->
+      	<div class="modal-content">
+	        <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal">&times;</button>
+	          <h4 class="modal-title">Editar Caja</h4>
+	        </div>			        
+		    <form class="form" id="formEditarCaja">						    
+			    <div class="modal-body">
+
+			    	<div class="form-group">
+						  <label for="ingreso">Ingreso</label>
+						  <input type="number" class="form-control" id="ingreso" value={{cajaEditar.ingreso}}>
+						</div>
+						<div class="form-group">				  
+						  <label for="egreso">Egreso</label>
+						  <input type="number" class="form-control" id="egreso" value={{cajaEditar.egreso}}>
+						</div>																	
+						<div class="form-group">
+						  <label for="notas">Notas</label>
+						  <textarea class="form-control" rows="5" id="notas" value={{cajaEditar.notas}}></textarea>
+						</div>			  	
+				</div>
+				<div class="modal-footer">
+		        	<button type="submit" id="submit" class="btn btn-success">Guardar</button>        	
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>		        
+			    </div>							
+		    </form>			        
+      	</div>
+    </div>
+</div>
+
+<!-- ********************** MODAL INFO CAJA *********************-->
+<div class="modal" id="modalInfoHistoria2" role="dialog">									  	
+  	<div class="modal-dialog modal-md">										    
+      <div class="modal-content">
+        <div class="modal-body">
+			<div class="panel panel-info">
+			  	<div class="panel-heading">
+			  		<button type="button" class="close" data-dismiss="modal">&times;</button>          
+			  		<h3>Información de la Caja</h3>
+			  	</div>					  	
+			  	<div class="panel-body">
+			  		<table class="table table-hover">
+				  		<thead>
+					      <tr>
+				          	<th class="col-xs-4"></th>
+				          	<th class="col-xs-8"></th>	                    
+					      </tr>
+					    </thead>				
+					    <tbody>					      
+					      <tr>
+					      	<td><strong><p>Fecha</p></strong></td>
+					      	<td>{{formatDate2 cajaInfo.fecha}}</td>
+					      </tr>	
+					      <tr>
+					      	<td><strong><p>Ingreso</p></strong></td>
+					      	<td>{{cajaInfo.ingreso}}</td>
+					      </tr>			      
+					      <tr>
+					      	<td><strong><p>Egreso</p></strong></td>
+					      	<td>{{cajaInfo.egreso}}</td>
+					      </tr>
+					      <tr>
+					      	<td><strong><p>Total</p></strong></td>
+					      	<td>{{cajaInfo.Total}}</td>
+					      </tr>		      
+					    </tbody>	
+					</table>
+			  		<div class="form-group">
+					  <label for="usr">Notas</label>
+					  <textarea disabled class="form-control" rows="5" id="notas" value={{cajaInfo.notas}}></textarea>
+					</div> 
+			  	</div>
+			</div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+      
+    </div>
+</div>
+
+<!--*********************************************************************************************************-->
+<div class="row">		
+
+	<div class="col-lg-12">
+
+	{{#with operador}}				
+
+		<div class="panel panel-info">
+		  <div class="panel-heading"><h3>Caja:</h3> <a href="#" id="modalIngresarCaja1" class="btn btn-success btn-xs">AGREGAR</a></div>			  
+		  <div class="panel-body">
+		    {{#if miscajas}}
+				<table class="table table-hover">
+					<thead>
+				      <tr>				          	
+			          	<th class="#80cbc4 teal-text">FECHA</th>
+						<th class="#80cbc4 teal-text">INGRESO</th>
+						<th class="#80cbc4 teal-text">EGRESO</th>
+	                    <th class="#80cbc4 teal-text">TOTAL</th>
+	                    <th class="#80cbc4 teal-text">ACCION</th>
+				      </tr>
+				    </thead>
+				    <tbody>
+				    	{{#each miscajas}}
+				      <tr>					        
+				        <td>{{formatDate2 fecha}}</td>
+				        <td>${{ingreso}}</td>
+				        <td>${{egreso}}</td>		
+				        <td>${{total}}</td>			        
+				        <td><a href="#" id="modalEditarCaja1" class="btn btn-warning btn-xs">Editar</a>
+				            <a href="#"	id="modalInfoCaja1" class="btn btn-info btn-xs">Detalle</a></td>
+				      </tr>
+				      	{{/each}}
+				    </tbody>	
+				</table>					
+			{{else}}
+				<p>Este operador no tiene cajas</p>
+			{{/if}}
+		  </div>
+		</div>				
+	{{/with}}
+	</div>				
+</div>
+	
+</template>

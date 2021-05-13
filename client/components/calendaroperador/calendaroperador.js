@@ -357,6 +357,7 @@ Template.calendaroperador.helpers({
     
     //CONVIERTO LAS FECHAS A FORMATO ISO   
     var iso1 = new Date(diaSeleccionado);
+    console.log("ISO 1 DIA SELECCIONANDO", iso1);
     var iso2 = new Date(diaSeleccionado);
     var diaiso2 = iso2.getDate()+1; //le sumo un dia a la fecha para buscar en dos rangos de fechas HOY<X<MAÑANA
     iso2.setDate(diaiso2);
