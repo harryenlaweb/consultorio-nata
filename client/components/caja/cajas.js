@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { Operadores } from '../../../lib/collections/operadores';
 import { Cajas } from '../../../lib/collections/cajas';
 import { Turnos } from '../../../lib/collections/turnos';
+import { CajasAdmin } from '../../../lib/collections/cajasAdmin';
 import { Router } from 'meteor/iron:router';
 
 
@@ -13,6 +14,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 Template.cajas.onCreated(function(){  
   this.operador = new ReactiveVar(null);  
   this.selCajaRecuperada = new ReactiveVar(null); 
+  this.selCajaRecuperadaInfo = new ReactiveVar(null); 
   this.selSumaTurnosAtendidos = new ReactiveVar(0);
 });
 
@@ -27,6 +29,9 @@ Template.cajas.helpers({
     },
     cajaEditar: function() {     
       return Template.instance().selCajaRecuperada.get();        
+    },
+    cajaInfo: function() {     
+      return Template.instance().selCajaRecuperadaInfo.get();        
     },
     sumaTurnosAtendidos: function() {     
       return Template.instance().selSumaTurnosAtendidos.get();        
@@ -69,6 +74,7 @@ Template.cajas.events({
               total: total,
               notas: notas,
               fecha: fecha,
+              idOperador:operador._id,
         };  
         
         
@@ -90,17 +96,59 @@ Template.cajas.events({
             //var conversion = fechaElemento.getTime(); 
             //console.log("CONVERSION:", conversion);
             
-            if (fechaElemento.getTime() == fecha.getTime()){            
+            /*if (fechaElemento.getTime() == fecha.getTime()){            
                 noHayCaja = false;
-                console.log("***** YA SE INGRESO UN CAJA EN ESTA FECHA!!!*******");
-            };           
+                //console.log("***** YA SE INGRESO UN CAJA EN ESTA FECHA!!!*******");
+            };*/
         };
         
         if (noHayCaja) {
           Operadores.update({_id:operador._id},{$push:{miscajas:ca}});    
+          //Operadores.update({_id:operador._id},{$push:{miscajas:{ $each: [ ], $sort: -1 }}});    
+
+          //AHORA TENGO QUE INGRESAR LA CAJA EN cajasAdmin.js, las cajas del administrador
+          // no deberia haber una caja de ese operador en esa fecha, es caso se da en actualizar
+
+            var cajasAdmin = CajasAdmin.findOne({fecha: fecha});
+            if (cajasAdmin) { //ya hay una caja ingresada en esa fecha, entonces tengo que agregar esta caja a la fecha              
+              console.log("******* 114 *******");
+              CajasAdmin.update({_id:cajasAdmin._id},{$push:{lascajas:ca}});                  
+              //tengo que actualizar los montos de la caja de esa fecha
+              var ingresoAdmin = cajasAdmin.ingreso;
+              var egresoAdmin = cajasAdmin.egreso;
+              
+              ingresoAdmin = ingresoAdmin + ingreso;
+              egresoAdmin = egresoAdmin + egreso;
+              var totalAdmim = ingresoAdmin - egresoAdmin;
+
+              CajasAdmin.update({_id:cajasAdmin._id},{$set: {
+                    ingreso: ingresoAdmin,
+                    egreso: egresoAdmin,
+                    total: totalAdmim,        
+              }});
+
+              console.log("******* 130 *******");
+
+            } else{ //tengo que insertar un nuevo documento
+                  CajasAdmin.insert({
+                        fecha: fecha,
+                        ingreso: ingreso,
+                        egreso: egreso,
+                        total: total,                        
+                  });
+                  var cajasAdmin = CajasAdmin.findOne({fecha: fecha});
+                  CajasAdmin.update({_id:cajasAdmin._id},{$push:{lascajas:ca}});    
+
+                  console.log("******* 141 *******");
+            }
+
         } else {
           alert("YA INGRESO UNA CAJA EN EL DIA DE HOY");
-        }          
+        };
+
+
+
+        
         
         $('#modalIngresarCaja2').modal('hide'); //CIERRO LA VENTANA MODAL
     },
@@ -158,7 +206,8 @@ Template.cajas.events({
               egreso: egreso,
               total: total,
               notas: notas,
-              fecha: fecha,              
+              fecha: fecha,    
+              idOperador: operador._id,          
         };  
 
         // ELIMINO LA CAJA      
@@ -173,6 +222,11 @@ Template.cajas.events({
   'click #modalEditarCaja1': function(event, template){             
       Template.instance().selCajaRecuperada.set(this);//recupero la caja a editar
       $('#modalEditarCaja2').modal('show');
+    }, 
+
+    'click #modalInfoCaja1': function(event, template){             
+      Template.instance().selCajaRecuperadaInfo.set(this);//recupero la caja a editar
+      $('#modalInfoCaja2').modal('show');
     }, 
 })
 

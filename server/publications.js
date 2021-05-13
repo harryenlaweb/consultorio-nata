@@ -16,11 +16,11 @@ Meteor.publish('tratamientos', function(){
 
 Meteor.publish('profesionales', function(){	
 	if (Roles.userIsInRole(Meteor.user(), ['adminconsultorio'])) {
-			return Profesionales.find({owner: this.userId});
+			return Profesionales.find({idConsultorio: this.userId});
 		} else{
 		return Profesionales.find({idConsultorio: Meteor.user().profile.idConsultorio});
 	}
-	
+	//return Profesionales.find({});
 });
 
 Meteor.publish('turnos', function(){
@@ -43,7 +43,7 @@ Meteor.publish('consultorios', function(){
 
 Meteor.publish('operadores', function(){
 	if (Roles.userIsInRole(Meteor.user(), ['adminconsultorio'])) {
-			return Operadores.find({owner: this.userId});
+			return Operadores.find({idConsultorio: this.userId});
 		} else{
 		return Operadores.find({idConsultorio: Meteor.user().profile.idConsultorio});
 	}
@@ -57,6 +57,10 @@ Meteor.publish('files.images.all', function () {
   	return Images.find().cursor;
 });
 
-/*Meteor.publish('cajas', function(){
+Meteor.publish('cajas', function(){	
+	if (Roles.userIsInRole(Meteor.user(), ['adminconsultorio'])) {
+		return Cajas.find({idConsultorio: this.userId});
+	} else{
 	return Cajas.find({owner: this.userId});
-});*/
+	}	
+});
