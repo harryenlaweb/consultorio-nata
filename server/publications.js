@@ -68,6 +68,6 @@ Meteor.publish('cajas', function(){
 
 Meteor.publish('cajasAdmin', function(){	
 	//if (Roles.userIsInRole(Meteor.user(), ['adminconsultorio'])) {
-		return CajasAdmin.find({});
+		return CajasAdmin.find();
 	//}
 });
