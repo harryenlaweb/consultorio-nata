@@ -151,9 +151,10 @@ Template.cajas.events({
                         fecha: fecha,
                         ingreso: ingreso,
                         egreso: egreso,
-                        total: total, 
-                        lascajas:[ca]                       
-                  });                  
+                        total: total,                         
+                  });             
+                  var cajaInsert = CajasAdmin.findOne( { fecha: { $eq: fecha } } );         
+                  CajasAdmin.update({_id:cajaInsert._id},{$push:{lascajas:ca}});                                                          
             }
 
         } else {

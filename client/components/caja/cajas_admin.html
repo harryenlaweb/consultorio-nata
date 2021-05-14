@@ -1,13 +1,59 @@
 <template name="cajasAdmin">
+<!-- ********************** MODAL INFO DEL Operador *********************-->
+<div class="modal" id="modalInfoCajasAdmin2" role="dialog">									  	
+  	<div class="modal-dialog modal-md">										    
 
+      <!-- Modal content-->
+      <div class="modal-content">
+      	
+        
+        <div class="modal-body">
+        	{{#with cajasAdminInfo}}				
+			<div class="panel panel-info">
+			  	<div class="panel-heading">
+			  		<button type="button" class="close" data-dismiss="modal">&times;</button>          
+			  		<h3>Fecha: {{formatDate2 fecha}}</h3>
+			  	</div>					  	
+			  	<div class="panel-body">
+			  		<table class="table table-hover">
+					<thead>
+				      <tr>				          	
+			          	<th class="#80cbc4 teal-text">OPERADOR</th>
+						<th class="#80cbc4 teal-text">INGRESO</th>
+						<th class="#80cbc4 teal-text">EGRESO</th>
+	                    <th class="#80cbc4 teal-text">TOTAL</th>
+	                    
+				      </tr>
+				    </thead>
+				    <tbody>
+				    	{{#each lascajas}}
+				      <tr>					        
+				        <td>{{nombreOperador}}</td>
+				        <td>${{ingreso}}</td>
+				        <td>${{egreso}}</td>		
+				        <td>${{total}}</td>			        
+				        
+				      </tr>
+				      	{{/each}}
+				    </tbody>	
+				</table>			  		
+			  	
+			    
+			  	</div>
+			</div>
+			{{/with}}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+      
+    </div>
+</div>
 	<div class="panel panel-success">
 	  	<div class="panel-heading"><strong><h3>Lista de cajas</h3></strong></div>
 	  	<div class="panel-body">
-	  		<div class="col-lg-12">
-			    <a href="#"	id="prueba" class="btn btn-info btn-xs">Detalle</a>	
-			    {{#with cajaA}}
-			    	{{ingreso}}
-			    {{/with}}
+	  		<div class="col-lg-12">		    
 
 		      	{{> EasySearch.Input index=cajitas attributes=searchAttributes }}
 		      	<hr />
@@ -19,20 +65,22 @@
 			          	<th class="#80cbc4 teal-text">FECHA</th>
 			          	<th class="#80cbc4 teal-text">INGRESO</th>
 			          	<th class="#80cbc4 teal-text">EGRESO</th>
-			          	<th class="#80cbc4 teal-text">TOTAL</th>
+			          	<th class="#80cbc4 teal-text">TOTAL</th>	                    	                    
 	                    <th class="#80cbc4 teal-text">ACCION</th>
 				      </tr>
 				    </thead>
 				    <tbody>
-				    	{{#EasySearch.Each index=cajitas}}	
+				    	{{#EasySearch.Each index=cajitas}}
+				    	<!--{{#each caja in cajasAd}}-->
 				      <tr>
-				        <td></td>
-				        <td>{{ingreso}}</td>
-				        <td></td>
-				        <td></td>
-				        <td><!--<a href="#"	class="modalPacienteInfo btn btn-info btn-xs">Detalle</a>--></td>
+				        <td>{{formatDate2 fecha}}</td>
+				        <td>${{ingreso}}</td>
+				        <td>${{egreso}}</td>				        
+				        <td>${{total}}</td>				        				        
+				        <td><a href="#"	id="modalInfoCajasAdmin" class="btn btn-info btn-xs">Detalle</a></td>
 				      </tr>
-				      	{{/EasySearch.Each}}
+				      <!--{{/each}}-->
+				      {{/EasySearch.Each}}
 				    </tbody>	
 				</table>						
 
