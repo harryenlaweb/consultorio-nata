@@ -1,7 +1,7 @@
 import { Mongo } from 'meteor/mongo';
 import { Meteor } from 'meteor/meteor';
 import { Operadores } from '../../../lib/collections/operadores';
-import { Cajas } from '../../../lib/collections/cajas';
+//import { Cajas } from '../../../lib/collections/cajas';
 import { Turnos } from '../../../lib/collections/turnos';
 import { CajasAdmin } from '../../../lib/collections/cajasAdmin';
 import { Router } from 'meteor/iron:router';
@@ -11,7 +11,7 @@ import SimpleSchema from 'simpl-schema';
 import { check } from 'meteor/check';
 import { ReactiveVar } from 'meteor/reactive-var';
 
-Template.cajas.onCreated(function(){  
+Template.cajasoperadores.onCreated(function(){  
   this.operador = new ReactiveVar(null);  
   this.selCajaRecuperada = new ReactiveVar(null); 
   this.selCajaRecuperadaInfo = new ReactiveVar(null); 
@@ -19,9 +19,9 @@ Template.cajas.onCreated(function(){
 });
 
 
-Template.cajas.helpers({
+Template.cajasoperadores.helpers({
 
-  operador: function() {       
+    operador: function() {       
       var idU = Meteor.userId();
       var op = Operadores.findOne({"idUsuario": idU});
       Template.instance().operador.set(op);      
@@ -44,7 +44,7 @@ Template.registerHelper('formatDate2', function(date) {
 
 
 
-Template.cajas.events({  
+Template.cajasoperadores.events({  
 
 //**********************INGRESAR CAJA ***************
   'submit #formIngresarCaja':function(event,template) {        
@@ -287,7 +287,7 @@ Template.cajas.events({
     }, 
 })
 
-Template.cajas.onRendered(function() {   
+Template.cajasoperadores.onRendered(function() {   
 
     //---------------------BORRO LOS DATOS DE LA VENTANAS MODALES-------------------  
     $("#modalIngresarCaja2").on("hidden.bs.modal", function(){        

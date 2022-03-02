@@ -1,6 +1,7 @@
 import { Mongo } from 'meteor/mongo';
 import { Meteor } from 'meteor/meteor';
 import { Historias } from '../../../lib/collections/historias';
+import { Turnos } from '../../../lib/collections/turnos';
 import { Pacientes } from '../../../lib/collections/pacientes';
 import { Router } from 'meteor/iron:router';
 
@@ -64,7 +65,7 @@ Template.historias.events({
 	      event.preventDefault(); 
 
 	      const target = event.target; 
-	      
+
 	      var otraImg = target.idCheckOtraImg.checked;
 	      console.log(otraImg);
 	      var paciente = template.data.paciente;//obtengo el paciente
@@ -100,7 +101,7 @@ Template.historias.events({
 
 	            console.log(uploadInstance);
 
-	            linkImage = "http://localhost:3000/cdn/storage/Images/".concat(idImage,"/original/",idImage,".",extension);
+	            linkImage = Meteor.absoluteUrl().concat("cdn/storage/Images/").concat(idImage,"/original/",idImage,".",extension);         
 	          }
 	        }
 
@@ -116,16 +117,44 @@ Template.historias.events({
 			Meteor.call('pacientes.removeHistoria',paciente._id, historia._id);	
 			
 		// INGRESO LA HISTORIA CLINICA
-			
-			var ingresoComentario = target.comentario.value;       
-	      
-		    let hist= { comentario: ingresoComentario,
+			var ingresoComentario = historia.comentario;			
+			if (target.comentario.value) {ingresoComentario = target.comentario.value};
+
+			var histTur = historia.turno;
+			console.log('HISTORIA TURNO:',histTur);
+
+			var tieneIdTurno = Turnos.find({_id: historia.idTurno},{idTurno: {$exists: true}});
+			console.log('TIENE ID TURNO:', tieneIdTurno);
+
+			if (histTur !== 'undefined') {
+				console.log('******130*******');
+				let hist= { comentario: ingresoComentario,
 		                  idImage: idImage,
 		                  link: linkImage,
 		                  name: name,
-		    };  
+		                  idTurno: historia.idTurno
+		    	}; 
+		    	//TENGO QUE ACTUALIZAR LA HISTORIA CLINICA DEL TURNO
+		    	Turnos.update({_id: historia.idTurno},{$set: {historia :  hist}});   
+		    	Pacientes.update({_id:paciente._id},{$push:{mishistorias:hist}});  
+			}
+			else{
+				console.log('******141*******');
+				let hist= { comentario: ingresoComentario,
+		                  idImage: idImage,
+		                  link: linkImage,
+		                  name: name,
+		    	}; 
+		    	Pacientes.update({_id:paciente._id},{$push:{mishistorias:hist}}); 
+			}     
+		    
 		
-	      Pacientes.update({_id:paciente._id},{$push:{mishistorias:hist}});   
+	      
+
+	    
+
+
+
 	      $('#modalEditarHistoria2').modal('hide'); //CIERRO LA VENTANA MODAL
 	  },
 
@@ -133,6 +162,63 @@ Template.historias.events({
       Template.instance().selHistoriaRecuperada.set(this);//recupero la historia clinica a editar
       $('#modalEditarHistoria2').modal('show');
     }, 
+
+    'submit #formHistoriaClinica':function(event,template) {       
+
+      event.preventDefault();     
+      const target = event.target;      
+
+      var idImage,name,type, extension;
+      var linkImage = null;
+
+      if (target.fileInput.files && target.fileInput.files[0]) {      
+          var file = target.fileInput.files[0];
+          if (file) {
+            var uploadInstance = Images.insert({
+              file: file,
+              chunkSize: 'dynamic'
+            }, false);
+
+            uploadInstance.on('start', function() {              
+              template.currentUpload.set(this);
+            });
+
+            uploadInstance.on('end', function(error, fileObj) {               
+              template.currentUpload.set(false);
+            });
+            uploadInstance.start();            
+
+            idImage = uploadInstance.config.fileId;  
+            name = uploadInstance.file.name;
+            type = uploadInstance.file.type;
+            extension = uploadInstance.file.extension;
+            
+            linkImage = Meteor.absoluteUrl().concat("cdn/storage/Images/").concat(idImage,"/original/",idImage,".",extension);         
+
+          }
+        }                       
+
+      
+      var ingresoComentario = target.comentario.value;       
+      
+      let hist= { comentario: ingresoComentario,
+                  idImage: idImage,
+                  link: linkImage,
+                  name: name,
+      };   
+      
+      let paciente = template.data.paciente;//obtengo el _id del paciente
+
+      Pacientes.update({_id:paciente._id},{$push:{mishistorias:hist}});         
+
+      $('#modalHistoriaClinica2').modal('hide'); //CIERRO LA VENTANA MODAL
+  },
+
+  //*******************************MUESTRO LOS DATOS DE LOS TRATAMIENTOS DEL TURNO********************************
+  'click #modalHistoriaClinica1': function(event, template){             
+      $('#modalHistoriaClinica2').modal('show');
+    }, 
+
 
 
   	'click #modalInfoHistoria1': function(event, template){             
@@ -169,11 +255,11 @@ Template.historias.events({
 Template.historias.onRendered(function() {   
 
     //---------------------BORRO LOS DATOS DE LA VENTANAS MODALES-------------------  
-    /*$("#modalEditarHistoria2").on("hidden.bs.modal", function(){        
+    $("#modalHistoriaClinica2").on("hidden.bs.modal", function(){        
         $(this).find("input,textarea,select").val('').end();
-    });   */
+    });
 
     $("#modalInfoPaciente").on("hidden.bs.modal", function(){        
         $(this).find().val('').end();
-    });    
+    });      
 });

@@ -8,7 +8,7 @@ import { Consultorios } from '../lib/collections/consultorios';
 import { Operadores } from '../lib/collections/operadores';
 import { Historias } from '../lib/collections/historias';
 import { Images } from '../lib/collections/images';
-import { Cajas } from '../lib/collections/cajas';
+//import { Cajas } from '../lib/collections/cajas';
 import { CajasAdmin } from '../lib/collections/cajasAdmin';
 
 Meteor.publish('tratamientos', function(){
@@ -58,13 +58,13 @@ Meteor.publish('files.images.all', function () {
   	return Images.find().cursor;
 });
 
-Meteor.publish('cajas', function(){	
+/*Meteor.publish('cajas', function(){	
 	if (Roles.userIsInRole(Meteor.user(), ['adminconsultorio'])) {
 		return Cajas.find({idConsultorio: this.userId});
 	} else{
 	return Cajas.find({owner: this.userId});
 	}	
-});
+});*/
 
 Meteor.publish('cajasAdmin', function(){	
 	//if (Roles.userIsInRole(Meteor.user(), ['adminconsultorio'])) {

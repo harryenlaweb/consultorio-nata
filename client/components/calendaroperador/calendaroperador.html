@@ -436,6 +436,50 @@
     </div>
 </div>
 
+<!-- ********************** MODAL INFO HISTORIA *********************-->
+<div class="modal" id="modalInfoHistoria2" role="dialog">									  	
+  	<div class="modal-dialog modal-md">										    
+      <div class="modal-content">
+        <div class="modal-body">
+			<div class="panel panel-info">
+			  	<div class="panel-heading">
+			  		<button type="button" class="close" data-dismiss="modal">&times;</button>          
+			  		<h3>Información de la Historia Clínica</h3>
+			  	</div>					  	
+			  	<div class="panel-body">
+			  		<table class="table table-hover">
+				  		<thead>
+					      <tr>
+				          	<th class="col-xs-4"></th>
+				          	<th class="col-xs-8"></th>	                    
+					      </tr>
+					    </thead>				
+					    <tbody>					      
+					      <tr>
+					      	<td><strong><p>Fecha</p></strong></td>
+					      	<td>{{formatDate2 turnoHistoria.fecha}}</td>
+					      </tr>	
+					      <tr>
+					      	<td><strong><p>Imágen</p></strong></td>
+					      	<td><a href="{{turnoHistoria.link}}?download=true" download="{{turnoHistoria.name}}" target="_blank"> {{turnoHistoria.name}} </a></td>
+					      </tr>			      
+					    </tbody>	
+					</table>
+			  		<div class="form-group">
+					  <label for="usr">Comentarios</label>
+					  <textarea disabled class="form-control" rows="5" id="comentario" value={{turnoHistoria.comentario}}></textarea>
+					</div> 
+			  	</div>
+			</div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+      
+    </div>
+</div>
+
 <!-- ********************** MODAL ELIMINAR TURNO *********************-->
 <div class="modal" id="modalEliminarTurno" role="dialog">									  	
   	<div class="modal-dialog modal-md">										          
@@ -645,6 +689,7 @@
 	          	<th class="#80cbc4 teal-text">FIN</th>
 	          	<th class="#80cbc4 teal-text">PACIENTE</th>
 	          	<th class="#80cbc4 teal-text"></th>	          	
+	          	<th class="#80cbc4 teal-text"></th>	          	
 	          	<th class="#80cbc4 teal-text">DURACION</th>
 	          	<th class="#80cbc4 teal-text">$</th>
 	          	<th class="#80cbc4 teal-text">ESTADO</th>
@@ -660,7 +705,7 @@
 						        <td>{{formatDate1 inicio}}</td>
 						        <td>{{formatDate1 fin}}</td>							        
 						        <td><a href="#" id="modalInfoPaciente">{{paciente.nombreApellido}}</a></td>
-						        <td><a href="#" id="modalInfoTratamientos"><button class="btn btn-info btn-xs">info</button></a></td>						        
+						        <td><a href="#" id="modalInfoTratamientos"><button class="btn btn-info btn-xs">info</button></a></td>						       <td></td>
 						        <td>{{duracion}} min</td>
 						        <td>$ {{importe}}</td>
 						        <td>{{estado}}</td>
@@ -686,7 +731,8 @@
 							        <td>{{formatDate1 inicio}}</td>
 							        <td>{{formatDate1 fin}}</td>							        
 							        <td><a href="#" id="modalInfoPaciente">{{paciente.nombreApellido}}</a></td>
-							        <td><a href="#" id="modalInfoTratamientos"><button class="btn btn-info btn-xs">info</button></a></td>							        
+							        <td><a href="#" id="modalInfoTratamientos"><button class="btn btn-info btn-xs">info</button></a></td>						
+							        <td></td>	        
 							        <td>{{duracion}} min</td>
 							        <td>$ {{importe}}</td>
 							        <td>{{estado}}</td>
@@ -713,6 +759,7 @@
 								        <td>{{formatDate1 fin}}</td>							        
 								        <td><a href="#" id="modalInfoPaciente">{{paciente.nombreApellido}}</a></td>
 								        <td><a href="#" id="modalInfoTratamientos"><button class="btn btn-info btn-xs">info</button></a></td>        
+								        <td></td>
 								        <td>{{duracion}} min</td>
 								        <td>$ {{importe}}</td>
 								        <td>{{estado}}</td>
@@ -739,6 +786,7 @@
 									        <td>{{formatDate1 fin}}</td>							        
 									        <td><a href="#" id="modalInfoPaciente">{{paciente.nombreApellido}}</a></td>
 									        <td><a href="#" id="modalInfoTratamientos"><button class="btn btn-info btn-xs">info</button></a></td>		        
+									        <td></td>
 									        <td>{{duracion}} min</td>
 									        <td>$ {{importe}}</td>
 									        <td>{{estado}}</td>
@@ -764,7 +812,8 @@
 										        <td><s>{{formatDate1 inicio}}</s></td>
 										        <td><s>{{formatDate1 fin}}</s></td>							        
 										        <td><a href="#" id="modalInfoPaciente"><s>{{paciente.nombreApellido}}</s></a></td>
-										        <td><a href="#" id="modalInfoTratamientos"><button class="btn btn-info btn-xs">info</button></a></td>				        
+										        <td><a href="#" id="modalInfoTratamientos"><button class="btn btn-info btn-xs">info</button></a></td>	        
+										        <td><a href="#" id="modalInfoHistoria1"><button class="btn btn-info btn-xs">Historia</button></a></td>			
 										        <td><s>{{duracion}} min</s></td>
 										        <td><s>$ {{importe}}</s></td>
 										        <td><s>{{estado}}</s></td>
@@ -789,7 +838,8 @@
 												        <td><p class="text-danger"><strong>{{formatDate1 inicio}}</strong></p></td>
 												        <td><p class="text-danger"><strong>{{formatDate1 fin}}</strong></p></td>							        
 												        <td><a href="#" id="modalInfoPaciente" class="text-danger"><strong>{{paciente.nombreApellido}}</strong></a></td>
-												        <td><a href="#" id="modalInfoTratamientos" class="text-danger"><button class="btn btn-info btn-xs">info</button></a></td>												        
+												        <td><a href="#" id="modalInfoTratamientos" class="text-danger"><button class="btn btn-info btn-xs">info</button></a></td>	
+												        <td></td>											        
 												        <td><p class="text-danger"><strong>{{duracion}} min</strong></p></td>
 												        <td><p class="text-danger"><strong>$ {{importe}}</strong></p></td>
 												        <td><p class="text-danger"><strong>{{estado}}</strong></p></td>
@@ -814,7 +864,8 @@
 													        <td><p class="text-danger"><s><strong>{{formatDate1 inicio}}</strong></s></p></td>
 													        <td><p class="text-danger"><s><strong>{{formatDate1 fin}}</strong></s></p></td>							        
 													        <td><a href="#" id="modalInfoPaciente" class="text-danger"><s><strong>{{paciente.nombreApellido}}</strong></s></a></td>
-													        <td><a href="#" id="modalInfoTratamientos" class="text-danger"><button class="btn btn-info btn-xs">info</button></a></td>													        
+													        <td><a href="#" id="modalInfoTratamientos" class="text-danger"><button class="btn btn-info btn-xs">info</button></a></td>	
+													        <td></td>												        
 													        <td><p class="text-danger"><s><strong>{{duracion}} min</strong></s></p></td>
 													        <td><p class="text-danger"><s><strong>$ {{importe}}</strong></s></p></td>
 													        <td><p class="text-danger"><s><strong>ATENDIDO</strong></s></p></td>
@@ -839,7 +890,8 @@
 													        <td><p class="text-danger"><strong>{{formatDate1 inicio}}</strong></p></td>
 													        <td><p class="text-danger"><strong>{{formatDate1 fin}}</strong></p></td>							        
 													        <td><a href="#" id="modalInfoPaciente" class="text-danger"><strong>{{paciente.nombreApellido}}</strong></a></td>
-													        <td><a href="#" id="modalInfoTratamientos" class="text-danger"><button class="btn btn-info btn-xs">info</button></a></td>													        
+													        <td><a href="#" id="modalInfoTratamientos" class="text-danger"><button class="btn btn-info btn-xs">info</button></a></td>
+													        <td></td>													        
 													        <td><p class="text-danger"><strong>{{duracion}} min</strong></p></td>
 													        <td><p class="text-danger"><strong>$ {{importe}}</strong></p></td>
 													        <td><p class="text-danger"><strong>FALTO</strong></p></td>
@@ -865,6 +917,7 @@
 															        <td></td>
 															        <td></td>
 															        <td></td>	
+															        <td></td>
 															        <td>{{duracion}} min</td>															        
 															        <td>{{estado}}</td>							        							        
 															        <td>

@@ -265,6 +265,10 @@ Template.calendaroperador.helpers({
     return Template.instance().selTurnoEliminar.get();        
   },
 
+  turnoHistoria: function() {     
+    return Template.instance().selModalHistoriaClinica.get();        
+  },
+
   //FUNCION DE TYPEAHEAD PARA AUTOCOMPLETAR EL PACIENTE Y SELECCIONARLO
   selecPaciente: function(event, suggestion, datasetName) {
     Template.instance().selPaciente.set(suggestion.id);  
@@ -431,63 +435,7 @@ Template.calendaroperador.events({
       $('#modalIngresoPaciente').modal('hide'); //CIERRO LA VENTANA MODAL
   },
 
-  //************************************** FORMULARIO MODAL PARA CARGAR HISTORIA CLINICA **********************************
-  'submit #formHistoriaClinica':function(event,template) {       
-
-      event.preventDefault();     
-      const target = event.target;      
-
-      var idImage,name,type, extension;
-      var linkImage = null;
-
-      if (target.fileInput.files && target.fileInput.files[0]) {      
-          var file = target.fileInput.files[0];
-          if (file) {
-            var uploadInstance = Images.insert({
-              file: file,
-              chunkSize: 'dynamic'
-            }, false);
-
-            uploadInstance.on('start', function() {              
-              template.currentUpload.set(this);
-            });
-
-            uploadInstance.on('end', function(error, fileObj) {   
-            if (error) {
-                window.alert('Error during upload: ' + error.reason);
-              } else {
-                window.alert('File "' + fileObj.name + '" successfully uploaded');
-              }           
-              template.currentUpload.set(false);
-            });
-            uploadInstance.start();            
-
-            idImage = uploadInstance.config.fileId;  
-            name = uploadInstance.file.name;
-            type = uploadInstance.file.type;
-            extension = uploadInstance.file.extension;
-
-            linkImage = "http://localhost:3000/cdn/storage/Images/".concat(idImage,"/original/",idImage,".",extension);
-          }
-        }                    
-      
-
-      var turno = Template.instance().selModalHistoriaClinica.get();      
-      idPaciente = turno.paciente._id;
-      var ingresoComentario = target.comentario.value;       
-      
-      let hist= { comentario: ingresoComentario,
-                  idImage: idImage,
-                  link: linkImage,
-                  name: name,
-      };   
-      
-      
-      Pacientes.update({_id:idPaciente},{$push:{mishistorias:hist}});     
-
-      $('#modalHistoriaClinica2').modal('hide'); //CIERRO LA VENTANA MODAL
-  },
-
+  
 
 
   //*******************************MUESTRO LOS DATOS DEL PACIENTE DEL TURNO********************************
@@ -509,11 +457,11 @@ Template.calendaroperador.events({
     },
 
     //*******************************MUESTRO LOS DATOS DE LOS TRATAMIENTOS DEL TURNO********************************
-  'click #modalHistoriaClinica1': function(event, template){       
+  'click #modalInfoHistoria1': function(event, template){       
       var turnoId = this._id;
       var turno = Turnos.findOne({"_id":turnoId});       
-      Template.instance().selModalHistoriaClinica.set(turno);//recupero el turno seleccionado      
-      $('#modalHistoriaClinica2').modal('show');
+      Template.instance().selModalHistoriaClinica.set(turno.historia);//recupero el turno seleccionado      
+      $('#modalInfoHistoria2').modal('show');
     },      
 
   //***********************************ELIMINO UN TURNO*****************************************

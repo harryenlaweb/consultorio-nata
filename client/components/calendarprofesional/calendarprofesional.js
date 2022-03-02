@@ -179,27 +179,28 @@ Template.calendarprofesional.events({
             name = uploadInstance.file.name;
             type = uploadInstance.file.type;
             extension = uploadInstance.file.extension;
-
-            linkImage = "http://localhost:3000/cdn/storage/Images/".concat(idImage,"/original/",idImage,".",extension);
+            linkImage = Meteor.absoluteUrl().concat("cdn/storage/Images/").concat(idImage,"/original/",idImage,".",extension);
           }
         }                       
 
-      
+      var turno = Template.instance().selModalHistoriaClinica.get();      
       var ingresoComentario = target.comentario.value;       
       
       let hist= { comentario: ingresoComentario,
                   idImage: idImage,
                   link: linkImage,
                   name: name,
+                  idTurno: turno._id,
       };   
       
-      var turno = Template.instance().selModalHistoriaClinica.get();      
+      
       idPaciente = turno.paciente._id;
 
       Pacientes.update({_id:idPaciente},{$push:{mishistorias:hist}});   
 
       //CUANDO EL PROFESIONAL LOS RECIBE, DEBE CARGAR LA HISTORIA CLINICA Y AL GUARDARLA CAMBIA A "ATENDIDO"
       Turnos.update({_id: turno._id},{$set: {estado :  "ATENDIDO"}});    
+      Turnos.update({_id: turno._id},{$set: {historia :  hist}});    
 
       //TAMBIEN DEBE BORRAR EL BOTON PARA ASIGNAR UNA HISTORIA CLINICA
       

@@ -8,7 +8,7 @@
 					{{#if isInRole 'adminconsultorio'}}							
 						<li><a href="{{ pathFor 'profesionales'}}">Profesionales</a></li>						
 						<li><a href="{{ pathFor 'operadores'}}">Operadores</a></li>						
-						<li><a href="{{ pathFor 'cajas_admin'}}">Cajas</a></li>						
+						<li><a href="{{ pathFor 'cajas_admin'}}">Cajas</a></li>					
 					{{/if}}					
 					{{#if isInRole 'operador'}}	
 						<li><a href="{{ pathFor 'calendaroperador'}}"><strong>Turnos</strong></a></li>						
@@ -16,7 +16,7 @@
 						<li><a href="{{ pathFor 'tratamientos'}}">Especialidades</a></li>										
 						<li><a href="{{ pathFor 'pacientes'}}">Pacientes</a></li>
 						<li><a href="{{ pathFor 'obras'}}">Obras</a></li>						
-						<li><a href="{{ pathFor 'cajas'}}">Cajas</a></li>						
+						<li><a href="{{ pathFor 'cajasoperadores'}}">Cajas</a></li>						
 					{{/if}}	
 					{{#if isInRole 'profesional'}}	
 						<li><a href="{{ pathFor 'calendarprofesional'}}"><strong>Turnos</strong></a></li>												
